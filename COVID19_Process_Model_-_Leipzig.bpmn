@@ -1,0 +1,2298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="_2020051900710" targetNamespace="http://www.bizagi.com/definitions/_2020051900710" exporter="Camunda Modeler" exporterVersion="3.7.3">
+  <process id="Id_0dee887d-1b3b-435f-be03-14f73644a082" name="Patient" isExecutable="false">
+    <documentation />
+    <laneSet id="Id_46fe7d0c-0a52-465f-be45-1af48c3c51b1" />
+    <startEvent id="Id_81354987-0fce-4c6a-902c-b7e5e0543104" name="start of symptoms">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#E6FF97" />
+            <bizagi:BizagiProperty name="borderColor" value="#62A716" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <outgoing>Flow_1b1f2ck</outgoing>
+      <conditionalEventDefinition id="Id_960a65f1-72ae-40ff-babc-c03c0c2be4f7">
+        <condition id="Expression_a7681fa5-b523-4515-ad30-7c958feb3abf" />
+      </conditionalEventDefinition>
+    </startEvent>
+    <exclusiveGateway id="Gateway_0p207yy" default="Flow_151p0f3">
+      <incoming>Flow_1b1f2ck</incoming>
+      <outgoing>Flow_0hbszca</outgoing>
+      <outgoing>Flow_151p0f3</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_0a02ckj" name="call 116117">
+      <incoming>Flow_0hbszca</incoming>
+      <outgoing>Flow_0gg832v</outgoing>
+    </task>
+    <task id="Activity_0cuhjob" name="request appointment at any available general practitioner">
+      <incoming>Flow_0gg832v</incoming>
+      <outgoing>Flow_0iskka2</outgoing>
+    </task>
+    <task id="Activity_1ki7ail" name="receive appointment">
+      <incoming>Flow_1k7g806</incoming>
+      <outgoing>Flow_18jvx1d</outgoing>
+    </task>
+    <endEvent id="Event_08p22kt">
+      <incoming>Flow_18jvx1d</incoming>
+      <messageEventDefinition id="MessageEventDefinition_03jgp8i" />
+    </endEvent>
+    <inclusiveGateway id="Gateway_1de6wpf">
+      <incoming>Flow_0kb4ga7</incoming>
+      <incoming>Flow_0iskka2</incoming>
+      <outgoing>Flow_1k7g806</outgoing>
+    </inclusiveGateway>
+    <task id="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b" name="stay at home">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_d31a43cb-3891-4664-9c91-c54e5a344c1c</incoming>
+      <outgoing>Flow_0ldvmes</outgoing>
+    </task>
+    <task id="Activity_1howmo8" name="check vital parameters">
+      <incoming>Flow_0ldvmes</incoming>
+      <outgoing>Flow_16ee10n</outgoing>
+      <standardLoopCharacteristics />
+    </task>
+    <startEvent id="Event_0bzpsd8">
+      <outgoing>Flow_0n5cv1f</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_0pfdizu" />
+    </startEvent>
+    <task id="Activity_1jsx0of" name="register epicrisis">
+      <incoming>Flow_0n5cv1f</incoming>
+      <outgoing>Flow_0mgx9h6</outgoing>
+    </task>
+    <task id="Activity_1r6j0x4" name="contact local health depatment">
+      <incoming>Flow_08zfjpe</incoming>
+      <outgoing>Flow_0opxcz9</outgoing>
+    </task>
+    <task id="Activity_00okhv9" name="contact 112">
+      <incoming>Flow_15yys1n</incoming>
+      <outgoing>Flow_0u8tle9</outgoing>
+    </task>
+    <task id="Activity_1q6g6a1" name="tranport to hospital">
+      <incoming>Flow_0060qcf</incoming>
+      <outgoing>Flow_1scjvk0</outgoing>
+    </task>
+    <intermediateThrowEvent id="Event_1mlnkm4">
+      <incoming>Flow_16ee10n</incoming>
+      <outgoing>Flow_1792var</outgoing>
+      <escalationEventDefinition id="EscalationEventDefinition_07bma3q" />
+    </intermediateThrowEvent>
+    <endEvent id="Event_0i3l9yj">
+      <incoming>Flow_1scjvk0</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_0n5cv1f" sourceRef="Event_0bzpsd8" targetRef="Activity_1jsx0of" />
+    <sequenceFlow id="Flow_16ee10n" sourceRef="Activity_1howmo8" targetRef="Event_1mlnkm4" />
+    <sequenceFlow id="Flow_1b1f2ck" sourceRef="Id_81354987-0fce-4c6a-902c-b7e5e0543104" targetRef="Gateway_0p207yy" />
+    <sequenceFlow id="Flow_0hbszca" name="general practitioner is not available or not reachable or patient&#10;preference" sourceRef="Gateway_0p207yy" targetRef="Activity_0a02ckj" />
+    <sequenceFlow id="Flow_151p0f3" sourceRef="Gateway_0p207yy" targetRef="Activity_010lom1" />
+    <sequenceFlow id="Flow_0gg832v" sourceRef="Activity_0a02ckj" targetRef="Activity_0cuhjob" />
+    <sequenceFlow id="Flow_0kb4ga7" sourceRef="Activity_0kdrtys" targetRef="Gateway_1de6wpf" />
+    <sequenceFlow id="Flow_0iskka2" sourceRef="Activity_0cuhjob" targetRef="Gateway_1de6wpf" />
+    <sequenceFlow id="Flow_1k7g806" sourceRef="Gateway_1de6wpf" targetRef="Activity_1ki7ail" />
+    <sequenceFlow id="Flow_18jvx1d" sourceRef="Activity_1ki7ail" targetRef="Event_08p22kt" />
+    <sequenceFlow id="Id_d31a43cb-3891-4664-9c91-c54e5a344c1c" sourceRef="Id_75742a7b-b608-4080-8bda-3148a3a7404c" targetRef="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_0ldvmes" sourceRef="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b" targetRef="Activity_1howmo8" />
+    <sequenceFlow id="Flow_1792var" sourceRef="Event_1mlnkm4" targetRef="Gateway_1cy5aiy" />
+    <sequenceFlow id="Flow_08zfjpe" name="With following symptoms:&#10;- cough&#10;- runny nose,&#10;- infection-related&#10;shortness of breath&#10;- fever" sourceRef="Gateway_1cy5aiy" targetRef="Activity_1r6j0x4" />
+    <sequenceFlow id="Flow_15yys1n" name="with the following symptoms / medical emergencies:&#10;life-threatening acute diseases,&#10;poisoning or serious injury" sourceRef="Gateway_1cy5aiy" targetRef="Activity_00okhv9" />
+    <sequenceFlow id="Flow_1scjvk0" sourceRef="Activity_1q6g6a1" targetRef="Event_0i3l9yj" />
+    <sequenceFlow id="Flow_0u8tle9" sourceRef="Activity_00okhv9" targetRef="Gateway_1sy62pc" />
+    <sequenceFlow id="Flow_0opxcz9" sourceRef="Activity_1r6j0x4" targetRef="Gateway_1sy62pc" />
+    <sequenceFlow id="Flow_0060qcf" sourceRef="Gateway_1sy62pc" targetRef="Activity_1q6g6a1" />
+    <startEvent id="Id_75742a7b-b608-4080-8bda-3148a3a7404c" name="">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#E6FF97" />
+            <bizagi:BizagiProperty name="borderColor" value="#62A716" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <outgoing>Id_d31a43cb-3891-4664-9c91-c54e5a344c1c</outgoing>
+      <messageEventDefinition id="Id_43eae110-cd96-47e6-a6a0-c61949e689e3" />
+    </startEvent>
+    <task id="Activity_0kdrtys" name="request appointment">
+      <incoming>Flow_10qid0p</incoming>
+      <outgoing>Flow_0kb4ga7</outgoing>
+    </task>
+    <task id="Activity_010lom1" name="call general practitioner">
+      <incoming>Flow_151p0f3</incoming>
+      <outgoing>Flow_10qid0p</outgoing>
+    </task>
+    <sequenceFlow id="Flow_10qid0p" sourceRef="Activity_010lom1" targetRef="Activity_0kdrtys" />
+    <exclusiveGateway id="Gateway_1cy5aiy" default="Flow_08zfjpe">
+      <incoming>Flow_1792var</incoming>
+      <outgoing>Flow_08zfjpe</outgoing>
+      <outgoing>Flow_15yys1n</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_0mgx9h6" sourceRef="Activity_1jsx0of" targetRef="Activity_0sdi4a3" />
+    <inclusiveGateway id="Gateway_1sy62pc">
+      <incoming>Flow_0u8tle9</incoming>
+      <incoming>Flow_0opxcz9</incoming>
+      <outgoing>Flow_0060qcf</outgoing>
+    </inclusiveGateway>
+    <subProcess id="Activity_0sdi4a3" name="Follow-Up-Care">
+      <incoming>Flow_0mgx9h6</incoming>
+      <outgoing>Flow_0vablmp</outgoing>
+      <standardLoopCharacteristics />
+      <task id="Activity_1m4op0c" name="check patient vital parameters">
+        <outgoing>Flow_0obdxya</outgoing>
+        <standardLoopCharacteristics />
+      </task>
+      <task id="Activity_1kow3wn" name="medical examination">
+        <incoming>Flow_0tljchw</incoming>
+        <outgoing>Flow_1lw20ou</outgoing>
+      </task>
+      <task id="Activity_0xsqzmr" name="treat patient">
+        <incoming>Flow_1lw20ou</incoming>
+      </task>
+      <sequenceFlow id="Flow_1lw20ou" sourceRef="Activity_1kow3wn" targetRef="Activity_0xsqzmr" />
+      <sequenceFlow id="Flow_0obdxya" sourceRef="Activity_1m4op0c" targetRef="Event_0mik34s" />
+      <intermediateThrowEvent id="Event_0mik34s">
+        <incoming>Flow_0obdxya</incoming>
+        <outgoing>Flow_0tljchw</outgoing>
+        <escalationEventDefinition id="EscalationEventDefinition_04m0pry" />
+      </intermediateThrowEvent>
+      <sequenceFlow id="Flow_0tljchw" sourceRef="Event_0mik34s" targetRef="Activity_1kow3wn" />
+    </subProcess>
+    <sequenceFlow id="Flow_0vablmp" sourceRef="Activity_0sdi4a3" targetRef="Event_01i10t0" />
+    <endEvent id="Event_01i10t0">
+      <incoming>Flow_0vablmp</incoming>
+      <terminateEventDefinition id="TerminateEventDefinition_1lqewlb" />
+    </endEvent>
+    <textAnnotation id="TextAnnotation_05p1e8a">
+      <text>advanced critical vital parameter or deterioration of general condition</text>
+    </textAnnotation>
+    <association id="Association_0j7py9g" sourceRef="Event_1mlnkm4" targetRef="TextAnnotation_05p1e8a" />
+  </process>
+  <process id="Id_5e74b716-fef9-40f3-b4fb-33e0bd89c0b3" name="Labor" isExecutable="false">
+    <documentation />
+    <laneSet id="Id_e88ddd67-bd97-4ce0-a8f2-93171ae7016c" />
+    <startEvent id="Id_e7a5bb3b-6e58-4203-b579-b30d3fa0bed4" name="">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#E6FF97" />
+            <bizagi:BizagiProperty name="borderColor" value="#62A716" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <outgoing>Id_e592a918-cc93-4cdd-8849-b8dfb4bbadb7</outgoing>
+      <messageEventDefinition id="Id_f86f9751-fec5-4e64-bad6-1403d0cf6aee" />
+    </startEvent>
+    <task id="Id_aa42da1b-6f45-4669-9bc7-9253910658d4" name="test for SARS-CoV-2">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_e592a918-cc93-4cdd-8849-b8dfb4bbadb7</incoming>
+      <outgoing>Id_f5f61083-7905-46ae-8ef7-375caddaa356</outgoing>
+    </task>
+    <endEvent id="Id_9bf7ddca-9478-4abe-a893-db46d4f63426" name="">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#EEAAAA" />
+            <bizagi:BizagiProperty name="borderColor" value="#990000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_f5f61083-7905-46ae-8ef7-375caddaa356</incoming>
+      <messageEventDefinition id="Id_d807ad41-6484-42ca-b6c4-798c23af4c65" />
+    </endEvent>
+    <sequenceFlow id="Id_e592a918-cc93-4cdd-8849-b8dfb4bbadb7" sourceRef="Id_e7a5bb3b-6e58-4203-b579-b30d3fa0bed4" targetRef="Id_aa42da1b-6f45-4669-9bc7-9253910658d4">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Id_f5f61083-7905-46ae-8ef7-375caddaa356" sourceRef="Id_aa42da1b-6f45-4669-9bc7-9253910658d4" targetRef="Id_9bf7ddca-9478-4abe-a893-db46d4f63426">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+  </process>
+  <process id="Id_607a2690-3a6e-4894-82fc-f1f525a4f663" name="Medizinische Ämter" isExecutable="false">
+    <documentation />
+    <laneSet id="Id_92b33048-3f06-4e70-b8f2-09500071cec4">
+      <lane id="Id_49fc9f68-26dd-4a94-9395-21f3028a08fd" name="Local Health depatment">
+        <documentation />
+        <flowNodeRef>Id_e48f4174-13a4-4122-a01d-3c326d30d9ce</flowNodeRef>
+        <flowNodeRef>Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc</flowNodeRef>
+        <flowNodeRef>Id_df58ec0e-a92b-4854-b08f-4e038672ee7e</flowNodeRef>
+        <flowNodeRef>Event_081psdw</flowNodeRef>
+        <flowNodeRef>Activity_0h6ivjf</flowNodeRef>
+        <flowNodeRef>Event_0ozjh8a</flowNodeRef>
+        <flowNodeRef>Event_1lp0nhp</flowNodeRef>
+        <flowNodeRef>Gateway_0pvgxd7</flowNodeRef>
+        <flowNodeRef>Gateway_1evnwry</flowNodeRef>
+        <flowNodeRef>Activity_0h3fakq</flowNodeRef>
+        <childLaneSet id="Id_e9cb5ab0-bf74-4ea1-8f32-c982e13c0d01" />
+      </lane>
+      <lane id="Id_f7d4be63-6b64-4c7c-b760-2738d2a1237d" name="Saxon Ministry">
+        <documentation />
+        <flowNodeRef>Id_9fdccb54-356a-4820-ae6c-3f0ba7eb3f12</flowNodeRef>
+        <flowNodeRef>Id_2d22d99c-9197-421d-ba50-1b7da8afd6f7</flowNodeRef>
+        <flowNodeRef>Event_121jxiw</flowNodeRef>
+        <flowNodeRef>Activity_0y8pq5t</flowNodeRef>
+        <flowNodeRef>Gateway_0l0ukeg</flowNodeRef>
+        <childLaneSet id="Id_a276b743-4204-425c-b17f-2c3d3aebae2f" />
+      </lane>
+      <lane id="Id_2e52aa26-327d-4957-a35a-4494f9efd513" name="Robert Koch Institute">
+        <documentation />
+        <flowNodeRef>Id_023d1927-8129-4d79-a511-5a651625de5b</flowNodeRef>
+        <flowNodeRef>Activity_01u6sm0</flowNodeRef>
+        <flowNodeRef>Event_0jwfxpy</flowNodeRef>
+        <flowNodeRef>Event_0gh9zvy</flowNodeRef>
+        <flowNodeRef>Gateway_184w67g</flowNodeRef>
+        <childLaneSet id="Id_64dfcc2c-fe04-4e72-bb27-166fa3f91be7" />
+      </lane>
+    </laneSet>
+    <sequenceFlow id="Id_7a56d97a-1a8a-4d65-b529-c9a17df9068f" sourceRef="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc" targetRef="Id_e48f4174-13a4-4122-a01d-3c326d30d9ce">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_0ab1ubr" sourceRef="Id_e48f4174-13a4-4122-a01d-3c326d30d9ce" targetRef="Gateway_1evnwry" />
+    <sequenceFlow id="Flow_0gwmqwz" sourceRef="Gateway_1evnwry" targetRef="Id_df58ec0e-a92b-4854-b08f-4e038672ee7e" />
+    <sequenceFlow id="Flow_1pi97nk" sourceRef="Gateway_1evnwry" targetRef="Activity_0h6ivjf" />
+    <sequenceFlow id="Flow_15vkkfr" sourceRef="Id_df58ec0e-a92b-4854-b08f-4e038672ee7e" targetRef="Id_9fdccb54-356a-4820-ae6c-3f0ba7eb3f12" />
+    <sequenceFlow id="Flow_0ismjer" sourceRef="Id_9fdccb54-356a-4820-ae6c-3f0ba7eb3f12" targetRef="Gateway_0l0ukeg" />
+    <sequenceFlow id="Flow_0jdy5m5" sourceRef="Gateway_0l0ukeg" targetRef="Id_2d22d99c-9197-421d-ba50-1b7da8afd6f7" />
+    <sequenceFlow id="Flow_081ez8n" sourceRef="Gateway_0l0ukeg" targetRef="Activity_0y8pq5t" />
+    <sequenceFlow id="Flow_1wm3gyb" sourceRef="Event_081psdw" targetRef="Gateway_0pvgxd7" />
+    <sequenceFlow id="Flow_006fmtk" sourceRef="Gateway_0pvgxd7" targetRef="Id_df58ec0e-a92b-4854-b08f-4e038672ee7e" />
+    <sequenceFlow id="Flow_1py4ojg" sourceRef="Gateway_0pvgxd7" targetRef="Activity_0h3fakq" />
+    <sequenceFlow id="Flow_17dnmv1" sourceRef="Activity_0h6ivjf" targetRef="Event_0ozjh8a" />
+    <sequenceFlow id="Flow_1mjqm7y" sourceRef="Id_023d1927-8129-4d79-a511-5a651625de5b" targetRef="Activity_01u6sm0" />
+    <sequenceFlow id="Flow_1tlvgz4" sourceRef="Activity_01u6sm0" targetRef="Event_0jwfxpy" />
+    <sequenceFlow id="Flow_1b9s3p7" sourceRef="Activity_0y8pq5t" targetRef="Event_121jxiw" />
+    <parallelGateway id="Gateway_0l0ukeg">
+      <incoming>Flow_0ismjer</incoming>
+      <outgoing>Flow_0jdy5m5</outgoing>
+      <outgoing>Flow_081ez8n</outgoing>
+    </parallelGateway>
+    <task id="Activity_0y8pq5t" name="create statistics">
+      <incoming>Flow_081ez8n</incoming>
+      <outgoing>Flow_1b9s3p7</outgoing>
+    </task>
+    <endEvent id="Event_121jxiw">
+      <incoming>Flow_1b9s3p7</incoming>
+    </endEvent>
+    <endEvent id="Event_0jwfxpy">
+      <incoming>Flow_1tlvgz4</incoming>
+    </endEvent>
+    <task id="Activity_01u6sm0" name="create statistics">
+      <incoming>Flow_1mjqm7y</incoming>
+      <outgoing>Flow_1tlvgz4</outgoing>
+    </task>
+    <endEvent id="Event_0ozjh8a">
+      <incoming>Flow_17dnmv1</incoming>
+    </endEvent>
+    <task id="Activity_0h6ivjf" name="track chain of infections">
+      <incoming>Flow_1pi97nk</incoming>
+      <outgoing>Flow_17dnmv1</outgoing>
+    </task>
+    <startEvent id="Event_081psdw">
+      <outgoing>Flow_1wm3gyb</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_1e8vttj" />
+    </startEvent>
+    <task id="Id_2d22d99c-9197-421d-ba50-1b7da8afd6f7" name="report case">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_0jdy5m5</incoming>
+      <outgoing>Flow_0cew8wo</outgoing>
+    </task>
+    <task id="Id_023d1927-8129-4d79-a511-5a651625de5b" name="register case">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_1ozq0aq</incoming>
+      <outgoing>Flow_1mjqm7y</outgoing>
+    </task>
+    <task id="Id_9fdccb54-356a-4820-ae6c-3f0ba7eb3f12" name="register case">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_15vkkfr</incoming>
+      <outgoing>Flow_0ismjer</outgoing>
+    </task>
+    <task id="Id_df58ec0e-a92b-4854-b08f-4e038672ee7e" name="report case">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_0gwmqwz</incoming>
+      <incoming>Flow_006fmtk</incoming>
+      <outgoing>Flow_15vkkfr</outgoing>
+    </task>
+    <startEvent id="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc" name="">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#E6FF97" />
+            <bizagi:BizagiProperty name="borderColor" value="#62A716" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <outgoing>Id_7a56d97a-1a8a-4d65-b529-c9a17df9068f</outgoing>
+      <messageEventDefinition id="Id_3c916f4f-f6a7-4b5c-ba69-424fcfa47017" />
+    </startEvent>
+    <task id="Id_e48f4174-13a4-4122-a01d-3c326d30d9ce" name="order to quarantine for 14 days">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_7a56d97a-1a8a-4d65-b529-c9a17df9068f</incoming>
+      <outgoing>Flow_0ab1ubr</outgoing>
+    </task>
+    <endEvent id="Event_1lp0nhp">
+      <incoming>Flow_0seas31</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_0seas31" sourceRef="Activity_0h3fakq" targetRef="Event_1lp0nhp" />
+    <startEvent id="Event_0gh9zvy">
+      <outgoing>Flow_0q0bh8p</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_05pfo3h" />
+    </startEvent>
+    <sequenceFlow id="Flow_0q0bh8p" sourceRef="Event_0gh9zvy" targetRef="Gateway_184w67g" />
+    <inclusiveGateway id="Gateway_184w67g">
+      <incoming>Flow_0q0bh8p</incoming>
+      <incoming>Flow_0cew8wo</incoming>
+      <outgoing>Flow_1ozq0aq</outgoing>
+    </inclusiveGateway>
+    <sequenceFlow id="Flow_1ozq0aq" sourceRef="Gateway_184w67g" targetRef="Id_023d1927-8129-4d79-a511-5a651625de5b" />
+    <sequenceFlow id="Flow_0cew8wo" sourceRef="Id_2d22d99c-9197-421d-ba50-1b7da8afd6f7" targetRef="Gateway_184w67g" />
+    <parallelGateway id="Gateway_0pvgxd7">
+      <incoming>Flow_1wm3gyb</incoming>
+      <outgoing>Flow_006fmtk</outgoing>
+      <outgoing>Flow_1py4ojg</outgoing>
+    </parallelGateway>
+    <parallelGateway id="Gateway_1evnwry">
+      <incoming>Flow_0ab1ubr</incoming>
+      <outgoing>Flow_0gwmqwz</outgoing>
+      <outgoing>Flow_1pi97nk</outgoing>
+    </parallelGateway>
+    <task id="Activity_0h3fakq" name="create statistics">
+      <incoming>Flow_1py4ojg</incoming>
+      <outgoing>Flow_0seas31</outgoing>
+    </task>
+  </process>
+  <collaboration id="Id_32d6230f-c576-424d-a574-50077539dd52" name="Diagramm  1">
+    <documentation />
+    <participant id="Id_7d4fb94b-86b2-4a20-aaee-199f7028ea08" name="Patient&#39;s Home" processRef="Id_0dee887d-1b3b-435f-be03-14f73644a082">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </participant>
+    <participant id="Id_819f5950-4963-4114-bb2b-14b5bb924579" name="Laboratory" processRef="Id_5e74b716-fef9-40f3-b4fb-33e0bd89c0b3">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </participant>
+    <participant id="Id_9d05ae88-45f9-4efd-9520-0f08805e6469" name="Publiic Health Institutions" processRef="Id_607a2690-3a6e-4894-82fc-f1f525a4f663">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </participant>
+    <participant id="Id_719f4269-04b2-4343-8a0e-0e607e617535" name="Medical institutions" processRef="Id_003d2d28-3d57-4cc0-bd4b-b8586b1db62c">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </participant>
+    <messageFlow id="Id_6289c3f7-e838-4da7-af71-11adcdf8b0ed" sourceRef="Id_e48f4174-13a4-4122-a01d-3c326d30d9ce" targetRef="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b" />
+    <messageFlow id="Id_265c7653-2e26-4f45-8c91-48b8dae15b53" sourceRef="Id_724de1d5-a837-4a34-9fdf-ac02c984557b" targetRef="Activity_1ki7ail" />
+    <messageFlow id="Id_c9fe6c49-a76f-4931-a0d8-3d11786e0b3e" sourceRef="Activity_0kdrtys" targetRef="Id_07bd6023-8af8-4524-a881-cb38cac89223" />
+    <messageFlow id="Flow_0eecac9" sourceRef="Activity_0anvsue" targetRef="Id_e7a5bb3b-6e58-4203-b579-b30d3fa0bed4" />
+    <messageFlow id="Flow_048pqsd" sourceRef="Event_0jkerze" targetRef="Id_75742a7b-b608-4080-8bda-3148a3a7404c" />
+    <messageFlow id="Flow_0o3t3js" sourceRef="Event_0jkerze" targetRef="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc" />
+    <messageFlow id="Flow_1a9s49y" sourceRef="Event_1gtqykd" targetRef="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc" />
+    <messageFlow id="Flow_180la7d" sourceRef="Activity_0cuhjob" targetRef="Id_07bd6023-8af8-4524-a881-cb38cac89223" />
+    <messageFlow id="Flow_1k41okb" sourceRef="Activity_0nwgev5" targetRef="Event_081psdw" />
+    <messageFlow id="Flow_1jfde8s" sourceRef="Activity_1dk5qib" targetRef="Event_0bzpsd8" />
+    <messageFlow id="Flow_0a22cjt" sourceRef="Activity_0ub7vnq" targetRef="Event_081psdw" />
+    <messageFlow id="Flow_1t536en" sourceRef="Event_1gtqykd" targetRef="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b" />
+    <messageFlow id="Flow_1lat8fu" sourceRef="Event_0uamt31" targetRef="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b" />
+    <messageFlow id="Flow_0y2bz01" sourceRef="Activity_1r6j0x4" targetRef="Event_1fzxf10" />
+    <messageFlow id="Flow_1iei6mf" sourceRef="Activity_00okhv9" targetRef="Event_1fzxf10" />
+    <messageFlow id="Flow_1nknoc9" sourceRef="Event_0i3l9yj" targetRef="Event_1f2qf6k" />
+    <messageFlow id="Flow_1ckhsmz" sourceRef="Event_08p22kt" targetRef="Activity_15lwuoq" />
+    <messageFlow id="Flow_07ez6s4" sourceRef="Activity_0fy100r" targetRef="Id_aa42da1b-6f45-4669-9bc7-9253910658d4" />
+    <messageFlow id="Flow_0107qpn" sourceRef="Id_9bf7ddca-9478-4abe-a893-db46d4f63426" targetRef="Event_1khl65c" />
+    <messageFlow id="Flow_15rp9gq" sourceRef="Id_9bf7ddca-9478-4abe-a893-db46d4f63426" targetRef="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc" />
+    <messageFlow id="Flow_1b8nbwq" sourceRef="Id_9bf7ddca-9478-4abe-a893-db46d4f63426" targetRef="Event_0gh9zvy" />
+    <messageFlow id="Flow_011xzk3" sourceRef="Activity_13o54ok" targetRef="Event_0gh9zvy" />
+    <messageFlow id="Flow_18pwv45" sourceRef="Activity_13o54ok" targetRef="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc" />
+  </collaboration>
+  <process id="Id_003d2d28-3d57-4cc0-bd4b-b8586b1db62c" name="Medical Institutions" isExecutable="false">
+    <documentation />
+    <laneSet id="Id_897810bc-2207-4e73-88fa-f778c2798c6f">
+      <lane id="Id_abd1c6f6-24cd-4991-b885-402342b06ee0" name="Hospital">
+        <documentation />
+        <flowNodeRef>Event_1f2qf6k</flowNodeRef>
+        <flowNodeRef>Id_4dd66388-af08-42b8-bdfe-5b7178f61fa4</flowNodeRef>
+        <flowNodeRef>Activity_015x6ui</flowNodeRef>
+        <flowNodeRef>Event_1c14f54</flowNodeRef>
+        <flowNodeRef>Activity_0ub7vnq</flowNodeRef>
+        <flowNodeRef>Gateway_12dlb4y</flowNodeRef>
+        <flowNodeRef>Activity_03h667l</flowNodeRef>
+        <flowNodeRef>Gateway_0asz3ff</flowNodeRef>
+        <flowNodeRef>Activity_098ro22</flowNodeRef>
+        <flowNodeRef>Gateway_1tb9xye</flowNodeRef>
+        <flowNodeRef>Activity_0cjiao1</flowNodeRef>
+        <flowNodeRef>Gateway_1s7d0df</flowNodeRef>
+        <flowNodeRef>Gateway_09f3ft7</flowNodeRef>
+        <flowNodeRef>Activity_1rrn6p0</flowNodeRef>
+        <flowNodeRef>Activity_09c432o</flowNodeRef>
+        <flowNodeRef>Activity_0nwgev5</flowNodeRef>
+        <flowNodeRef>Activity_1dk5qib</flowNodeRef>
+        <flowNodeRef>Event_13xvftg</flowNodeRef>
+        <flowNodeRef>Activity_01qt848</flowNodeRef>
+        <flowNodeRef>Activity_1kibah6</flowNodeRef>
+        <childLaneSet id="Id_d096c820-d0b4-4c32-8f57-a6e464659a54" />
+      </lane>
+      <lane id="Id_2361b41d-1d77-4b2a-ae15-23f371803a06" name="General Practitioner">
+        <documentation />
+        <flowNodeRef>Id_2b0beb68-a8af-45c1-b05d-8ded28ccfba9</flowNodeRef>
+        <flowNodeRef>Event_1khl65c</flowNodeRef>
+        <flowNodeRef>Event_1yt5vt0</flowNodeRef>
+        <flowNodeRef>Activity_15lwuoq</flowNodeRef>
+        <flowNodeRef>Id_724de1d5-a837-4a34-9fdf-ac02c984557b</flowNodeRef>
+        <flowNodeRef>Id_e0b21221-1c66-411f-93f0-4f22328b6328</flowNodeRef>
+        <flowNodeRef>Id_07bd6023-8af8-4524-a881-cb38cac89223</flowNodeRef>
+        <flowNodeRef>Id_e749b76e-c0b7-4041-9185-02573d34a02f</flowNodeRef>
+        <flowNodeRef>Id_78282851-21b7-4723-8b16-01e6e9066d72</flowNodeRef>
+        <flowNodeRef>Activity_1qmlcz3</flowNodeRef>
+        <flowNodeRef>Event_10m04a7</flowNodeRef>
+        <flowNodeRef>Event_0uamt31</flowNodeRef>
+        <flowNodeRef>Gateway_1ua7qfz</flowNodeRef>
+        <flowNodeRef>Id_d6717c53-ffea-4073-ab2c-5838c8abdb64</flowNodeRef>
+        <flowNodeRef>Event_1gtqykd</flowNodeRef>
+        <flowNodeRef>Event_0jkerze</flowNodeRef>
+        <flowNodeRef>Activity_0anvsue</flowNodeRef>
+        <flowNodeRef>Activity_159mrjo</flowNodeRef>
+        <flowNodeRef>Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb</flowNodeRef>
+        <flowNodeRef>Activity_0q9coay</flowNodeRef>
+        <flowNodeRef>Activity_1msaq0c</flowNodeRef>
+        <flowNodeRef>Event_1fzxf10</flowNodeRef>
+        <childLaneSet id="Id_c63de844-7b4e-49ba-98c0-49df522007fe" />
+      </lane>
+      <lane id="Lane_02xade1" name="Corona clinik">
+        <flowNodeRef>Event_0k7n27l</flowNodeRef>
+        <flowNodeRef>Activity_0fy100r</flowNodeRef>
+        <flowNodeRef>Activity_13o54ok</flowNodeRef>
+        <flowNodeRef>Gateway_127lhhq</flowNodeRef>
+        <flowNodeRef>Activity_14p0yf2</flowNodeRef>
+      </lane>
+    </laneSet>
+    <sequenceFlow id="Flow_0i4nubw" sourceRef="Event_1f2qf6k" targetRef="Id_4dd66388-af08-42b8-bdfe-5b7178f61fa4" />
+    <sequenceFlow id="Flow_1lipman" sourceRef="Activity_015x6ui" targetRef="Event_1f2qf6k" />
+    <sequenceFlow id="Flow_0zdoce5" sourceRef="Id_4dd66388-af08-42b8-bdfe-5b7178f61fa4" targetRef="Activity_1rrn6p0" />
+    <sequenceFlow id="Flow_1w3lrv4" sourceRef="Activity_0q9coay" targetRef="Activity_015x6ui" />
+    <sequenceFlow id="Flow_1gkvvyn" sourceRef="Id_d6717c53-ffea-4073-ab2c-5838c8abdb64" targetRef="Activity_1qmlcz3" />
+    <sequenceFlow id="Flow_0mc5sax" sourceRef="Activity_159mrjo" targetRef="Event_0jkerze" />
+    <sequenceFlow id="Flow_1urgcsk" sourceRef="Activity_0anvsue" targetRef="Event_0jkerze" />
+    <sequenceFlow id="Flow_1q68bny" sourceRef="Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb" targetRef="Activity_0anvsue" />
+    <sequenceFlow id="Flow_07bwu9i" name="general practitioner is able to take&#10;a smear" sourceRef="Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb" targetRef="Activity_159mrjo" />
+    <sequenceFlow id="Id_8c5163d3-1353-429d-b42d-93fcd360dea0" name="no &#10;symptoms compatible with COVID-19" sourceRef="Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb" targetRef="Id_2b0beb68-a8af-45c1-b05d-8ded28ccfba9">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <conditionExpression id="Expression_79779ed7-9314-4533-b1b8-0685438df5c9" />
+    </sequenceFlow>
+    <sequenceFlow id="Id_b0c80eeb-0ce0-4eb5-b1b2-d7481a1b5368" sourceRef="Id_78282851-21b7-4723-8b16-01e6e9066d72" targetRef="Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_1ak0y4l" sourceRef="Id_e749b76e-c0b7-4041-9185-02573d34a02f" targetRef="Id_78282851-21b7-4723-8b16-01e6e9066d72" />
+    <sequenceFlow id="Id_b19f9416-9e2c-4294-bddc-7ecd11680090" sourceRef="Id_e0b21221-1c66-411f-93f0-4f22328b6328" targetRef="Id_724de1d5-a837-4a34-9fdf-ac02c984557b">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Id_a676961a-b4c9-4360-920b-b164fa30823b" sourceRef="Id_07bd6023-8af8-4524-a881-cb38cac89223" targetRef="Id_e0b21221-1c66-411f-93f0-4f22328b6328">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="White" />
+            <bizagi:BizagiProperty name="borderColor" value="#000000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_0mnma8u" sourceRef="Activity_1qmlcz3" targetRef="Gateway_1ua7qfz" />
+    <sequenceFlow id="Flow_18on0pu" name="postive test" sourceRef="Gateway_1ua7qfz" targetRef="Event_1gtqykd" />
+    <sequenceFlow id="Flow_1154f1m" sourceRef="Activity_1rrn6p0" targetRef="Activity_09c432o" />
+    <sequenceFlow id="Flow_1h413gn" sourceRef="Activity_09c432o" targetRef="Gateway_09f3ft7" />
+    <sequenceFlow id="Flow_03kkq58" name="patient has a&#10;respiratory rate over 30 / min and/or hypoxemia" sourceRef="Gateway_09f3ft7" targetRef="Activity_1kibah6" />
+    <sequenceFlow id="Flow_03n8b2z" sourceRef="Activity_1kibah6" targetRef="Gateway_1s7d0df" />
+    <sequenceFlow id="Flow_1b11v4h" sourceRef="Gateway_1s7d0df" targetRef="Activity_01qt848" />
+    <sequenceFlow id="Flow_0lxrnwq" name="if SpO2&#10;&#60;= 90 %" sourceRef="Gateway_1s7d0df" targetRef="Activity_0cjiao1" />
+    <sequenceFlow id="Flow_1t4x2vw" sourceRef="Activity_0cjiao1" targetRef="Gateway_1tb9xye" />
+    <sequenceFlow id="Flow_11yo5eh" sourceRef="Gateway_1tb9xye" targetRef="Activity_01qt848" />
+    <sequenceFlow id="Flow_10k3kjv" name="if&#10;PaO2/FIO2&#10;≤200mm Hg" sourceRef="Gateway_1tb9xye" targetRef="Activity_098ro22" />
+    <sequenceFlow id="Flow_1tro5bm" sourceRef="Activity_098ro22" targetRef="Gateway_0asz3ff" />
+    <sequenceFlow id="Flow_0deptt7" name="a stable pulmonary situation (usually oxygen saturation &#62; 93% and a respiratory rate &#60;20 / min)" sourceRef="Gateway_0asz3ff" targetRef="Activity_01qt848" />
+    <sequenceFlow id="Flow_1btunpq" name="if Acute Respiratory Distress Syndrome and PaO2-&#10;FIO2-Quotient &#60;80 or 60mm Hg" sourceRef="Gateway_0asz3ff" targetRef="Activity_03h667l" />
+    <sequenceFlow id="Flow_0de4wme" sourceRef="Activity_03h667l" targetRef="Gateway_12dlb4y" />
+    <sequenceFlow id="Flow_0y371cg" sourceRef="Gateway_12dlb4y" targetRef="Activity_01qt848" />
+    <sequenceFlow id="Flow_0h1lc4g" name="death" sourceRef="Gateway_12dlb4y" targetRef="Activity_0ub7vnq" />
+    <sequenceFlow id="Flow_074voka" sourceRef="Activity_0ub7vnq" targetRef="Event_1c14f54" />
+    <sequenceFlow id="Flow_0y786ep" name="negative test" sourceRef="Gateway_1ua7qfz" targetRef="Event_0uamt31" />
+    <sequenceFlow id="Flow_0z65oja" sourceRef="Event_0uamt31" targetRef="Event_10m04a7" />
+    <sequenceFlow id="Flow_0ahrygn" sourceRef="Activity_15lwuoq" targetRef="Id_e749b76e-c0b7-4041-9185-02573d34a02f" />
+    <sequenceFlow id="Flow_0hxk1lz" sourceRef="Activity_159mrjo" targetRef="Activity_14p0yf2" />
+    <sequenceFlow id="Flow_0r3q1ib" sourceRef="Activity_14p0yf2" targetRef="Gateway_127lhhq" />
+    <sequenceFlow id="Flow_0bz7yz7" name="local&#10;laboratory available" sourceRef="Gateway_127lhhq" targetRef="Activity_13o54ok" />
+    <sequenceFlow id="Flow_1o5diqi" sourceRef="Gateway_127lhhq" targetRef="Activity_0fy100r" />
+    <sequenceFlow id="Flow_0tei9md" sourceRef="Event_1yt5vt0" targetRef="Event_1khl65c" />
+    <sequenceFlow id="Flow_11l6bo2" sourceRef="Event_1khl65c" targetRef="Id_d6717c53-ffea-4073-ab2c-5838c8abdb64" />
+    <sequenceFlow id="Flow_16md4sj" sourceRef="Activity_13o54ok" targetRef="Event_1khl65c" />
+    <sequenceFlow id="Flow_0p14qem" sourceRef="Activity_0fy100r" targetRef="Event_0k7n27l" />
+    <sequenceFlow id="Flow_11i5opk" sourceRef="Activity_0nwgev5" targetRef="Activity_1dk5qib" />
+    <sequenceFlow id="Flow_169bopo" sourceRef="Activity_1dk5qib" targetRef="Event_13xvftg" />
+    <sequenceFlow id="Flow_0muet5r" sourceRef="Gateway_09f3ft7" targetRef="Activity_01qt848" />
+    <sequenceFlow id="Flow_0wsmlzv" sourceRef="Activity_01qt848" targetRef="Activity_0nwgev5" />
+    <sequenceFlow id="Flow_1cbrj6r" sourceRef="Activity_1msaq0c" targetRef="Activity_0q9coay" />
+    <sequenceFlow id="Flow_0y3qdyk" sourceRef="Event_1fzxf10" targetRef="Activity_1msaq0c" />
+    <task id="Activity_1kibah6" name="transfer to ICU for patient with SARS-CoV-2">
+      <incoming>Flow_03kkq58</incoming>
+      <outgoing>Flow_03n8b2z</outgoing>
+    </task>
+    <startEvent id="Event_1fzxf10">
+      <outgoing>Flow_0y3qdyk</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_0vtn08o" />
+    </startEvent>
+    <task id="Activity_1msaq0c" name="referral to the hospital">
+      <incoming>Flow_0y3qdyk</incoming>
+      <outgoing>Flow_1cbrj6r</outgoing>
+    </task>
+    <task id="Activity_0q9coay" name="pre-register patient at hospital">
+      <incoming>Flow_1cbrj6r</incoming>
+      <outgoing>Flow_1w3lrv4</outgoing>
+    </task>
+    <task id="Activity_01qt848" name="after care">
+      <incoming>Flow_0muet5r</incoming>
+      <incoming>Flow_1b11v4h</incoming>
+      <incoming>Flow_11yo5eh</incoming>
+      <incoming>Flow_0deptt7</incoming>
+      <incoming>Flow_0y371cg</incoming>
+      <outgoing>Flow_0wsmlzv</outgoing>
+    </task>
+    <endEvent id="Event_13xvftg">
+      <incoming>Flow_169bopo</incoming>
+    </endEvent>
+    <task id="Activity_1dk5qib" name="report epicrisis">
+      <incoming>Flow_11i5opk</incoming>
+      <outgoing>Flow_169bopo</outgoing>
+    </task>
+    <task id="Activity_0nwgev5" name="report recovery">
+      <incoming>Flow_0wsmlzv</incoming>
+      <outgoing>Flow_11i5opk</outgoing>
+    </task>
+    <exclusiveGateway id="Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb" name="" gatewayDirection="Diverging" default="Flow_07bwu9i">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#FFFFCC" />
+            <bizagi:BizagiProperty name="borderColor" value="#A6A61D" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_b0c80eeb-0ce0-4eb5-b1b2-d7481a1b5368</incoming>
+      <outgoing>Id_8c5163d3-1353-429d-b42d-93fcd360dea0</outgoing>
+      <outgoing>Flow_1q68bny</outgoing>
+      <outgoing>Flow_07bwu9i</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_159mrjo" name="referral to &#34;Corona clinik&#34;">
+      <incoming>Flow_07bwu9i</incoming>
+      <outgoing>Flow_0mc5sax</outgoing>
+      <outgoing>Flow_0hxk1lz</outgoing>
+    </task>
+    <task id="Activity_0anvsue" name="take smear">
+      <incoming>Flow_1q68bny</incoming>
+      <outgoing>Flow_1urgcsk</outgoing>
+    </task>
+    <endEvent id="Event_0jkerze">
+      <incoming>Flow_0mc5sax</incoming>
+      <incoming>Flow_1urgcsk</incoming>
+      <messageEventDefinition id="MessageEventDefinition_002petg" />
+    </endEvent>
+    <endEvent id="Event_1gtqykd">
+      <incoming>Flow_18on0pu</incoming>
+      <messageEventDefinition id="MessageEventDefinition_07ev0fv" />
+    </endEvent>
+    <task id="Id_d6717c53-ffea-4073-ab2c-5838c8abdb64" name="register results">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_11l6bo2</incoming>
+      <outgoing>Flow_1gkvvyn</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_1ua7qfz">
+      <incoming>Flow_0mnma8u</incoming>
+      <outgoing>Flow_18on0pu</outgoing>
+      <outgoing>Flow_0y786ep</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_09c432o" name="Checking for critical vital parameter">
+      <incoming>Flow_1154f1m</incoming>
+      <outgoing>Flow_1h413gn</outgoing>
+      <standardLoopCharacteristics />
+    </task>
+    <task id="Activity_1rrn6p0" name="transfer to default ward for patients with SARS-CoV-2">
+      <incoming>Flow_0zdoce5</incoming>
+      <outgoing>Flow_1154f1m</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_09f3ft7" default="Flow_0muet5r">
+      <incoming>Flow_1h413gn</incoming>
+      <outgoing>Flow_03kkq58</outgoing>
+      <outgoing>Flow_0muet5r</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="Gateway_1s7d0df" default="Flow_1b11v4h">
+      <incoming>Flow_03n8b2z</incoming>
+      <outgoing>Flow_1b11v4h</outgoing>
+      <outgoing>Flow_0lxrnwq</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_0cjiao1" name="non-invasive  ventilation">
+      <incoming>Flow_0lxrnwq</incoming>
+      <outgoing>Flow_1t4x2vw</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_1tb9xye" default="Flow_11yo5eh">
+      <incoming>Flow_1t4x2vw</incoming>
+      <outgoing>Flow_11yo5eh</outgoing>
+      <outgoing>Flow_10k3kjv</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_098ro22" name="intubation">
+      <incoming>Flow_10k3kjv</incoming>
+      <outgoing>Flow_1tro5bm</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_0asz3ff" default="Flow_0deptt7">
+      <incoming>Flow_1tro5bm</incoming>
+      <outgoing>Flow_0deptt7</outgoing>
+      <outgoing>Flow_1btunpq</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_03h667l" name="switch to ECMO">
+      <incoming>Flow_1btunpq</incoming>
+      <outgoing>Flow_0de4wme</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_12dlb4y" default="Flow_0y371cg">
+      <incoming>Flow_0de4wme</incoming>
+      <outgoing>Flow_0y371cg</outgoing>
+      <outgoing>Flow_0h1lc4g</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_0ub7vnq" name="report death">
+      <incoming>Flow_0h1lc4g</incoming>
+      <outgoing>Flow_074voka</outgoing>
+    </task>
+    <endEvent id="Event_1c14f54">
+      <incoming>Flow_074voka</incoming>
+      <terminateEventDefinition id="TerminateEventDefinition_15q9bbu" />
+    </endEvent>
+    <intermediateThrowEvent id="Event_0uamt31">
+      <incoming>Flow_0y786ep</incoming>
+      <outgoing>Flow_0z65oja</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_1phjuz3" />
+    </intermediateThrowEvent>
+    <endEvent id="Event_10m04a7">
+      <incoming>Flow_0z65oja</incoming>
+      <terminateEventDefinition id="TerminateEventDefinition_1wzdp2e" />
+    </endEvent>
+    <task id="Activity_015x6ui" name="pepare for COVID-19 patient admisson">
+      <incoming>Flow_1w3lrv4</incoming>
+      <outgoing>Flow_1lipman</outgoing>
+    </task>
+    <task id="Id_4dd66388-af08-42b8-bdfe-5b7178f61fa4" name="patient admission">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_0i4nubw</incoming>
+      <outgoing>Flow_0zdoce5</outgoing>
+    </task>
+    <intermediateCatchEvent id="Event_1f2qf6k">
+      <incoming>Flow_1lipman</incoming>
+      <outgoing>Flow_0i4nubw</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_17sx04l" />
+    </intermediateCatchEvent>
+    <sendTask id="Activity_1qmlcz3" name="inform patient">
+      <incoming>Flow_1gkvvyn</incoming>
+      <outgoing>Flow_0mnma8u</outgoing>
+    </sendTask>
+    <task id="Id_78282851-21b7-4723-8b16-01e6e9066d72" name="tentative diagnosis">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_1ak0y4l</incoming>
+      <outgoing>Id_b0c80eeb-0ce0-4eb5-b1b2-d7481a1b5368</outgoing>
+    </task>
+    <task id="Id_e749b76e-c0b7-4041-9185-02573d34a02f" name="anamnese and medical examination">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Flow_0ahrygn</incoming>
+      <outgoing>Flow_1ak0y4l</outgoing>
+    </task>
+    <startEvent id="Id_07bd6023-8af8-4524-a881-cb38cac89223" name="">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#E6FF97" />
+            <bizagi:BizagiProperty name="borderColor" value="#62A716" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <outgoing>Id_a676961a-b4c9-4360-920b-b164fa30823b</outgoing>
+      <messageEventDefinition id="Id_7f8c2463-0bff-4ce8-87b7-ed60d9b5c645" />
+    </startEvent>
+    <task id="Id_e0b21221-1c66-411f-93f0-4f22328b6328" name="appointment scheduling">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#ECEFFF" />
+            <bizagi:BizagiProperty name="borderColor" value="#03689A" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_a676961a-b4c9-4360-920b-b164fa30823b</incoming>
+      <outgoing>Id_b19f9416-9e2c-4294-bddc-7ecd11680090</outgoing>
+    </task>
+    <endEvent id="Id_724de1d5-a837-4a34-9fdf-ac02c984557b" name="">
+      <documentation />
+      <extensionElements>
+        <bizagi:BizagiExtensions xmlns:bizagi="http://www.bizagi.com/bpmn20">
+          <bizagi:BizagiProperties>
+            <bizagi:BizagiProperty name="bgColor" value="#EEAAAA" />
+            <bizagi:BizagiProperty name="borderColor" value="#990000" />
+            <bizagi:BizagiProperty name="textColor" value="#000000" />
+            <bizagi:BizagiProperty name="textBackgroundColor" value="#FFFFFF" />
+            <bizagi:BizagiProperty name="textDirection" value="" />
+          </bizagi:BizagiProperties>
+        </bizagi:BizagiExtensions>
+      </extensionElements>
+      <incoming>Id_b19f9416-9e2c-4294-bddc-7ecd11680090</incoming>
+      <messageEventDefinition id="Id_0166af12-f69d-4df6-a035-cc63b20d6fa6" />
+    </endEvent>
+    <task id="Activity_15lwuoq" name="patient admission">
+      <outgoing>Flow_0ahrygn</outgoing>
+    </task>
+    <task id="Activity_14p0yf2" name="take smear">
+      <incoming>Flow_0hxk1lz</incoming>
+      <outgoing>Flow_0r3q1ib</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_127lhhq" default="Flow_1o5diqi">
+      <incoming>Flow_0r3q1ib</incoming>
+      <outgoing>Flow_0bz7yz7</outgoing>
+      <outgoing>Flow_1o5diqi</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_13o54ok" name="test for SARS-CoV-2">
+      <incoming>Flow_0bz7yz7</incoming>
+      <outgoing>Flow_16md4sj</outgoing>
+    </task>
+    <task id="Activity_0fy100r" name="mail smear to laboratory">
+      <incoming>Flow_1o5diqi</incoming>
+      <outgoing>Flow_0p14qem</outgoing>
+    </task>
+    <startEvent id="Event_1yt5vt0">
+      <outgoing>Flow_0tei9md</outgoing>
+    </startEvent>
+    <intermediateCatchEvent id="Event_1khl65c">
+      <incoming>Flow_0tei9md</incoming>
+      <incoming>Flow_16md4sj</incoming>
+      <outgoing>Flow_11l6bo2</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_1m4zbvv" />
+    </intermediateCatchEvent>
+    <endEvent id="Event_0k7n27l">
+      <incoming>Flow_0p14qem</incoming>
+    </endEvent>
+    <endEvent id="Id_2b0beb68-a8af-45c1-b05d-8ded28ccfba9" name="">
+      <documentation />
+      <incoming>Id_8c5163d3-1353-429d-b42d-93fcd360dea0</incoming>
+      <terminateEventDefinition id="TerminateEventDefinition_1pn7hae" />
+    </endEvent>
+    <textAnnotation id="TextAnnotation_0d662ni">
+      <text>patient will be treated in the care of the general practitioner</text>
+    </textAnnotation>
+    <textAnnotation id="TextAnnotation_1odip5t">
+      <text>improvment of / treatment:
+-  shortness of breath
+-  respiratory muscle strength and pulmonary resilience
+-  psychomental impairments and / or stress-induced mental disorders of the disease</text>
+    </textAnnotation>
+    <textAnnotation id="TextAnnotation_12nlh47">
+      <text>Report of suspicion of illness to the local health department is necessary if:
+- patient had contact to a
+confirmed COVID-19 case
+or
+- patient has symptoms of viral
+pneumonia and is in connection to an accumulation of pneumonia cases in medical institutions</text>
+    </textAnnotation>
+    <association id="Association_1o89370" sourceRef="Activity_01qt848" targetRef="TextAnnotation_1odip5t" />
+    <association id="Association_0uf0o0i" sourceRef="Event_0jkerze" targetRef="TextAnnotation_12nlh47" />
+    <association id="Association_1mzg5xt" sourceRef="Event_10m04a7" targetRef="TextAnnotation_0d662ni" />
+  </process>
+  <BPMNDiagram xmlns="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Diagram_29f61166-1483-4855-9b46-5d625b20ec21">
+    <BPMNPlane id="DiagramElement_acd2ac2a-d5d9-4593-802a-a747faf7ef1d" bpmnElement="Id_32d6230f-c576-424d-a574-50077539dd52">
+      <di:extension />
+      <BPMNShape id="DiagramElement_99c6ee45-35b9-49f2-b555-eb6c31e72d59" bpmnElement="Id_7d4fb94b-86b2-4a20-aaee-199f7028ea08" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="164" y="670" width="3636" height="370" />
+        <BPMNLabel id="DiagramElement_85888153-42fc-4e1f-b42c-a2561c097381" labelStyle="Style_da948fcc-0a8a-4e39-94e9-3af2ee3c79a8">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="Flow_0vablmp_di" bpmnElement="Flow_0vablmp">
+        <di:waypoint x="3570" y="829" />
+        <di:waypoint x="3662" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0mgx9h6_di" bpmnElement="Flow_0mgx9h6">
+        <di:waypoint x="3070" y="829" />
+        <di:waypoint x="3160" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_10qid0p_di" bpmnElement="Flow_10qid0p">
+        <di:waypoint x="540" y="952" />
+        <di:waypoint x="610" y="952" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0060qcf_di" bpmnElement="Flow_0060qcf">
+        <di:waypoint x="2115" y="833" />
+        <di:waypoint x="2150" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0opxcz9_di" bpmnElement="Flow_0opxcz9">
+        <di:waypoint x="2020" y="833" />
+        <di:waypoint x="2065" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0u8tle9_di" bpmnElement="Flow_0u8tle9">
+        <di:waypoint x="2020" y="950" />
+        <di:waypoint x="2090" y="950" />
+        <di:waypoint x="2090" y="858" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1scjvk0_di" bpmnElement="Flow_1scjvk0">
+        <di:waypoint x="2250" y="833" />
+        <di:waypoint x="2282" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_15yys1n_di" bpmnElement="Flow_15yys1n">
+        <di:waypoint x="1830" y="858" />
+        <di:waypoint x="1830" y="950" />
+        <di:waypoint x="1920" y="950" />
+        <BPMNLabel>
+          <dc:Bounds x="1742" y="847" width="77" height="119" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_08zfjpe_di" bpmnElement="Flow_08zfjpe">
+        <di:waypoint x="1855" y="833" />
+        <di:waypoint x="1920" y="833" />
+        <BPMNLabel>
+          <dc:Bounds x="1837" y="717" width="85" height="106" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1792var_di" bpmnElement="Flow_1792var">
+        <di:waypoint x="1748" y="833" />
+        <di:waypoint x="1805" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0ldvmes_di" bpmnElement="Flow_0ldvmes">
+        <di:waypoint x="1550" y="833" />
+        <di:waypoint x="1580" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_ac3ae74a-0614-4a0f-a9b8-c84bb8ff6f55" bpmnElement="Id_d31a43cb-3891-4664-9c91-c54e5a344c1c">
+        <di:extension />
+        <di:waypoint x="1345" y="833" />
+        <di:waypoint x="1460" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_18jvx1d_di" bpmnElement="Flow_18jvx1d">
+        <di:waypoint x="1010" y="829" />
+        <di:waypoint x="1052" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1k7g806_di" bpmnElement="Flow_1k7g806">
+        <di:waypoint x="835" y="829" />
+        <di:waypoint x="910" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0iskka2_di" bpmnElement="Flow_0iskka2">
+        <di:waypoint x="710" y="829" />
+        <di:waypoint x="785" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0kb4ga7_di" bpmnElement="Flow_0kb4ga7">
+        <di:waypoint x="710" y="952" />
+        <di:waypoint x="810" y="952" />
+        <di:waypoint x="810" y="854" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0gg832v_di" bpmnElement="Flow_0gg832v">
+        <di:waypoint x="540" y="829" />
+        <di:waypoint x="610" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_151p0f3_di" bpmnElement="Flow_151p0f3">
+        <di:waypoint x="350" y="854" />
+        <di:waypoint x="350" y="952" />
+        <di:waypoint x="440" y="952" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0hbszca_di" bpmnElement="Flow_0hbszca">
+        <di:waypoint x="375" y="829" />
+        <di:waypoint x="440" y="829" />
+        <BPMNLabel>
+          <dc:Bounds x="368" y="740" width="84" height="80" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1b1f2ck_di" bpmnElement="Flow_1b1f2ck">
+        <di:waypoint x="267" y="829" />
+        <di:waypoint x="325" y="829" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_16ee10n_di" bpmnElement="Flow_16ee10n">
+        <di:waypoint x="1680" y="833" />
+        <di:waypoint x="1712" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0n5cv1f_di" bpmnElement="Flow_0n5cv1f">
+        <di:waypoint x="2918" y="829" />
+        <di:waypoint x="2970" y="829" />
+      </BPMNEdge>
+      <BPMNShape id="DiagramElement_4cd6169e-ca10-46f5-812a-2d5b8880971c" bpmnElement="Id_81354987-0fce-4c6a-902c-b7e5e0543104">
+        <di:extension />
+        <dc:Bounds x="237" y="814" width="30" height="30" />
+        <BPMNLabel id="DiagramElement_055b95f6-0d7c-44a9-992c-b55cd39c9b37" labelStyle="Style_871f1e5f-5131-4e9d-bf45-70835ce46cab">
+          <di:extension />
+          <dc:Bounds x="210" y="850" width="87" height="14" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="Gateway_0p207yy_di" bpmnElement="Gateway_0p207yy" isMarkerVisible="true">
+        <dc:Bounds x="325" y="804" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0a02ckj_di" bpmnElement="Activity_0a02ckj">
+        <dc:Bounds x="440" y="789" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0cuhjob_di" bpmnElement="Activity_0cuhjob">
+        <dc:Bounds x="610" y="789" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1ki7ail_di" bpmnElement="Activity_1ki7ail">
+        <dc:Bounds x="910" y="789" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_0e3qr6o_di" bpmnElement="Event_08p22kt">
+        <dc:Bounds x="1052" y="811" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_12hn5z9_di" bpmnElement="Gateway_1de6wpf">
+        <dc:Bounds x="785" y="804" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_adc8bf81-92df-4173-8911-af80a7d5300b" bpmnElement="Id_ce134b6b-4708-4ba1-aea9-d79bea99c42b">
+        <di:extension />
+        <dc:Bounds x="1460" y="803" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_8ce3e97c-3912-440b-a32f-5bfef4c143dc" labelStyle="Style_6cb9de4f-945b-4da2-ae32-8abb308e9ae3">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="Activity_1howmo8_di" bpmnElement="Activity_1howmo8">
+        <dc:Bounds x="1580" y="793" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_15a85za_di" bpmnElement="Event_0bzpsd8">
+        <dc:Bounds x="2882" y="811" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1jsx0of_di" bpmnElement="Activity_1jsx0of">
+        <dc:Bounds x="2970" y="789" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1r6j0x4_di" bpmnElement="Activity_1r6j0x4">
+        <dc:Bounds x="1920" y="793" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_00okhv9_di" bpmnElement="Activity_00okhv9">
+        <dc:Bounds x="1920" y="910" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1q6g6a1_di" bpmnElement="Activity_1q6g6a1">
+        <dc:Bounds x="2150" y="793" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_02tnxzd_di" bpmnElement="Event_1mlnkm4">
+        <dc:Bounds x="1712" y="815" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_032c4db_di" bpmnElement="Event_0i3l9yj">
+        <dc:Bounds x="2282" y="815" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_9a4f6da4-9161-404d-a742-c079b794ebf9" bpmnElement="Id_75742a7b-b608-4080-8bda-3148a3a7404c">
+        <di:extension />
+        <dc:Bounds x="1315" y="818" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0kdrtys_di" bpmnElement="Activity_0kdrtys">
+        <dc:Bounds x="610" y="912" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_010lom1_di" bpmnElement="Activity_010lom1">
+        <dc:Bounds x="440" y="912" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_1cy5aiy_di" bpmnElement="Gateway_1cy5aiy" isMarkerVisible="true">
+        <dc:Bounds x="1805" y="808" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_0y1ue9c_di" bpmnElement="Gateway_1sy62pc">
+        <dc:Bounds x="2065" y="808" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1fsmsf6_di" bpmnElement="Activity_0sdi4a3" isExpanded="true">
+        <dc:Bounds x="3160" y="701" width="410" height="256" />
+      </BPMNShape>
+      <BPMNEdge id="Flow_0tljchw_di" bpmnElement="Flow_0tljchw">
+        <di:waypoint x="3368" y="777" />
+        <di:waypoint x="3410" y="777" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0obdxya_di" bpmnElement="Flow_0obdxya">
+        <di:waypoint x="3280" y="777" />
+        <di:waypoint x="3332" y="777" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1lw20ou_di" bpmnElement="Flow_1lw20ou">
+        <di:waypoint x="3510" y="777" />
+        <di:waypoint x="3540" y="777" />
+        <di:waypoint x="3540" y="837" />
+        <di:waypoint x="3230" y="837" />
+        <di:waypoint x="3230" y="857" />
+      </BPMNEdge>
+      <BPMNShape id="Activity_1m4op0c_di" bpmnElement="Activity_1m4op0c">
+        <dc:Bounds x="3180" y="737" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1kow3wn_di" bpmnElement="Activity_1kow3wn">
+        <dc:Bounds x="3410" y="737" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0xsqzmr_di" bpmnElement="Activity_0xsqzmr">
+        <dc:Bounds x="3180" y="857" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_1qd3cag_di" bpmnElement="Event_0mik34s">
+        <dc:Bounds x="3332" y="759" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0bdppub_di" bpmnElement="Event_01i10t0">
+        <dc:Bounds x="3662" y="811" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="TextAnnotation_05p1e8a_di" bpmnElement="TextAnnotation_05p1e8a">
+        <dc:Bounds x="1740" y="680" width="100" height="80" />
+      </BPMNShape>
+      <BPMNEdge id="Association_0j7py9g_di" bpmnElement="Association_0j7py9g">
+        <di:waypoint x="1730" y="815" />
+        <di:waypoint x="1730" y="718" />
+        <di:waypoint x="1740" y="718" />
+      </BPMNEdge>
+      <BPMNShape id="DiagramElement_1b763190-7eb9-47c4-beb0-1073262c2c2a" bpmnElement="Id_819f5950-4963-4114-bb2b-14b5bb924579" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="164" y="1947" width="1316" height="110" />
+        <BPMNLabel id="DiagramElement_376158de-be09-4bd6-b6b2-159a37964f26" labelStyle="Style_35b74cca-2843-4d51-9834-8fbdb5ac5655">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="DiagramElement_f2853e8a-d5a5-4403-bdf6-a06e9178c2e5" bpmnElement="Id_f5f61083-7905-46ae-8ef7-375caddaa356">
+        <di:extension />
+        <di:waypoint x="1235" y="1998" />
+        <di:waypoint x="1275" y="1998" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_27d7e46d-27ed-435b-a1d3-df5597d5dc57" bpmnElement="Id_e592a918-cc93-4cdd-8849-b8dfb4bbadb7">
+        <di:extension />
+        <di:waypoint x="1115" y="1998" />
+        <di:waypoint x="1145" y="1998" />
+      </BPMNEdge>
+      <BPMNShape id="DiagramElement_11de62a4-ddab-42fd-9369-e7a7df57e1ed" bpmnElement="Id_e7a5bb3b-6e58-4203-b579-b30d3fa0bed4">
+        <di:extension />
+        <dc:Bounds x="1085" y="1984" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_970113ea-ef05-455d-896d-a821df72b43b" bpmnElement="Id_aa42da1b-6f45-4669-9bc7-9253910658d4">
+        <di:extension />
+        <dc:Bounds x="1145" y="1969" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_207b3222-0cb2-4a03-8129-2a2b7fea03fd" labelStyle="Style_75b9dc98-885a-4d80-9022-701dd6037d32">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_04cb2b5d-2133-4d5c-873e-e08e864a85d0" bpmnElement="Id_9bf7ddca-9478-4abe-a893-db46d4f63426">
+        <di:extension />
+        <dc:Bounds x="1275" y="1983" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_d86085e5-68ba-44c8-aaf9-87eb79c21fb0" bpmnElement="Id_9d05ae88-45f9-4efd-9520-0f08805e6469" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="164" y="80" width="2146" height="585" />
+        <BPMNLabel id="DiagramElement_c1451f78-bc63-41a9-b888-c713e536d4ae" labelStyle="Style_b50a6f62-debe-4b49-a362-19aacf1d87f0">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_f2723823-ff67-4281-81df-6c97feacac72" bpmnElement="Id_2e52aa26-327d-4957-a35a-4494f9efd513" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="190" y="80" width="2096" height="120" />
+        <BPMNLabel id="DiagramElement_0933665d-abfe-401f-bc73-061e0c3df7a4" labelStyle="Style_e23c7dc2-bcf3-4849-9177-7dcdcc346e63">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_03f99554-530b-4ad0-b261-51e16d3094ce" bpmnElement="Id_f7d4be63-6b64-4c7c-b760-2738d2a1237d" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="190" y="200" width="2096" height="210" />
+        <BPMNLabel id="DiagramElement_56e7748b-36c2-4bf3-9d63-f31f927cf794" labelStyle="Style_50e770d0-e230-4d73-bc19-e20654fae99f">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_dc6d4367-9908-4c64-a6b0-c8525d0a2ba3" bpmnElement="Id_49fc9f68-26dd-4a94-9395-21f3028a08fd" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="190" y="410" width="2096" height="255" />
+        <BPMNLabel id="DiagramElement_add6a525-6eff-4a2d-ac95-0e4672adb8d9" labelStyle="Style_544883be-abed-471e-a79e-ec26d39a9bad">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="Flow_0cew8wo_di" bpmnElement="Flow_0cew8wo">
+        <di:waypoint x="1960" y="230" />
+        <di:waypoint x="1960" y="210" />
+        <di:waypoint x="1840" y="210" />
+        <di:waypoint x="1840" y="165" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1ozq0aq_di" bpmnElement="Flow_1ozq0aq">
+        <di:waypoint x="1865" y="140" />
+        <di:waypoint x="1915" y="140" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0q0bh8p_di" bpmnElement="Flow_0q0bh8p">
+        <di:waypoint x="1758" y="140" />
+        <di:waypoint x="1815" y="140" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0seas31_di" bpmnElement="Flow_0seas31">
+        <di:waypoint x="2050" y="550" />
+        <di:waypoint x="2102" y="550" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1b9s3p7_di" bpmnElement="Flow_1b9s3p7">
+        <di:waypoint x="2010" y="340" />
+        <di:waypoint x="2052" y="340" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1tlvgz4_di" bpmnElement="Flow_1tlvgz4">
+        <di:waypoint x="2160" y="140" />
+        <di:waypoint x="2222" y="140" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1mjqm7y_di" bpmnElement="Flow_1mjqm7y">
+        <di:waypoint x="2005" y="140" />
+        <di:waypoint x="2060" y="140" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_17dnmv1_di" bpmnElement="Flow_17dnmv1">
+        <di:waypoint x="1800" y="605" />
+        <di:waypoint x="1862" y="605" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1py4ojg_di" bpmnElement="Flow_1py4ojg">
+        <di:waypoint x="1880" y="495" />
+        <di:waypoint x="1880" y="550" />
+        <di:waypoint x="1950" y="550" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_006fmtk_di" bpmnElement="Flow_006fmtk">
+        <di:waypoint x="1855" y="470" />
+        <di:waypoint x="1795" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1wm3gyb_di" bpmnElement="Flow_1wm3gyb">
+        <di:waypoint x="1952" y="470" />
+        <di:waypoint x="1905" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_081ez8n_di" bpmnElement="Flow_081ez8n">
+        <di:waypoint x="1850" y="285" />
+        <di:waypoint x="1850" y="340" />
+        <di:waypoint x="1910" y="340" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0jdy5m5_di" bpmnElement="Flow_0jdy5m5">
+        <di:waypoint x="1875" y="260" />
+        <di:waypoint x="1915" y="260" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0ismjer_di" bpmnElement="Flow_0ismjer">
+        <di:waypoint x="1795" y="260" />
+        <di:waypoint x="1825" y="260" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_15vkkfr_di" bpmnElement="Flow_15vkkfr">
+        <di:waypoint x="1750" y="440" />
+        <di:waypoint x="1750" y="290" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1pi97nk_di" bpmnElement="Flow_1pi97nk">
+        <di:waypoint x="1620" y="495" />
+        <di:waypoint x="1620" y="605" />
+        <di:waypoint x="1700" y="605" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0gwmqwz_di" bpmnElement="Flow_0gwmqwz">
+        <di:waypoint x="1645" y="470" />
+        <di:waypoint x="1705" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0ab1ubr_di" bpmnElement="Flow_0ab1ubr">
+        <di:waypoint x="1548" y="470" />
+        <di:waypoint x="1595" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_c00405c6-db48-41e2-8e40-5efeac44ae74" bpmnElement="Id_7a56d97a-1a8a-4d65-b529-c9a17df9068f">
+        <di:extension />
+        <di:waypoint x="1413" y="470" />
+        <di:waypoint x="1458" y="470" />
+      </BPMNEdge>
+      <BPMNShape id="Gateway_12e9rwa_di" bpmnElement="Gateway_0l0ukeg">
+        <dc:Bounds x="1825" y="235" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0y8pq5t_di" bpmnElement="Activity_0y8pq5t">
+        <dc:Bounds x="1910" y="300" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_121jxiw_di" bpmnElement="Event_121jxiw">
+        <dc:Bounds x="2052" y="322" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0jwfxpy_di" bpmnElement="Event_0jwfxpy">
+        <dc:Bounds x="2222" y="122" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_01u6sm0_di" bpmnElement="Activity_01u6sm0">
+        <dc:Bounds x="2060" y="100" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_0ozjh8a_di" bpmnElement="Event_0ozjh8a">
+        <dc:Bounds x="1862" y="587" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0h6ivjf_di" bpmnElement="Activity_0h6ivjf">
+        <dc:Bounds x="1700" y="565" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_06diu4y_di" bpmnElement="Event_081psdw">
+        <dc:Bounds x="1952" y="452" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_24b4587e-6d09-4f7d-b033-3f38fd4f5608" bpmnElement="Id_2d22d99c-9197-421d-ba50-1b7da8afd6f7">
+        <di:extension />
+        <dc:Bounds x="1915" y="230" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_1bbeb7c9-2eb8-4764-b956-f07d658246fb" labelStyle="Style_ff93d7d7-ac76-418e-9b75-9c00aef12868">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_37d5c093-28b1-4b23-b45f-48fc6a87d339" bpmnElement="Id_023d1927-8129-4d79-a511-5a651625de5b">
+        <di:extension />
+        <dc:Bounds x="1915" y="110" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_fb40b50a-5bb4-4138-ab2c-8098584a2af6" labelStyle="Style_00add819-d43f-4ccd-8b64-a179b7137a70">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_a56bf375-1033-40b4-9960-9638864624a5" bpmnElement="Id_9fdccb54-356a-4820-ae6c-3f0ba7eb3f12">
+        <di:extension />
+        <dc:Bounds x="1705" y="230" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_221964bf-f2f5-44ca-b9eb-cd90fabeda8f" labelStyle="Style_928bc5da-c6ac-4236-87ca-f03167a92809">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_032f177e-05a5-4798-b097-4cd6983ff342" bpmnElement="Id_df58ec0e-a92b-4854-b08f-4e038672ee7e">
+        <di:extension />
+        <dc:Bounds x="1705" y="440" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_bdc32395-b2c1-4311-b7a0-5839e263d8bc" labelStyle="Style_a8cd844a-795d-4266-b7f3-fc6868103426">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_f9607443-24c6-4502-adf3-2e4b3f064767" bpmnElement="Id_b8c37d68-3354-4ad9-9283-d216fe1f86bc">
+        <di:extension />
+        <dc:Bounds x="1383" y="455" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_25a4f219-c215-476c-ae7f-5ec0ec7eafee" bpmnElement="Id_e48f4174-13a4-4122-a01d-3c326d30d9ce">
+        <di:extension />
+        <dc:Bounds x="1458" y="440" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_c712f052-b260-418e-b326-b102fd9263ea" labelStyle="Style_2d9b5ebc-d2b8-44d5-9d0d-923a73385a35">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="Event_1lp0nhp_di" bpmnElement="Event_1lp0nhp">
+        <dc:Bounds x="2102" y="532" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0rftf5a_di" bpmnElement="Event_0gh9zvy">
+        <dc:Bounds x="1722" y="122" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_1q1qqpz_di" bpmnElement="Gateway_184w67g">
+        <dc:Bounds x="1815" y="115" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_0ehh56e_di" bpmnElement="Gateway_0pvgxd7">
+        <dc:Bounds x="1855" y="445" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_0s1iheu_di" bpmnElement="Gateway_1evnwry">
+        <dc:Bounds x="1595" y="445" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0h3fakq_di" bpmnElement="Activity_0h3fakq">
+        <dc:Bounds x="1950" y="510" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_13540356-6de6-44a8-8f48-57222f88e928" bpmnElement="Id_719f4269-04b2-4343-8a0e-0e607e617535" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="164" y="1045" width="3636" height="898" />
+        <BPMNLabel id="DiagramElement_fa1d4a68-d1ea-41f7-877c-14c4736bc85e" labelStyle="Style_d0c924a8-553b-4080-b4a2-1a214121e858">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="Lane_02xade1_di" bpmnElement="Lane_02xade1" isHorizontal="true">
+        <dc:Bounds x="190" y="1703" width="3586" height="240" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_77329ecd-2166-48cb-9b9b-ec8f281c7801" bpmnElement="Id_2361b41d-1d77-4b2a-ae15-23f371803a06" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="190" y="1405" width="3586" height="298" />
+        <BPMNLabel id="DiagramElement_158fe649-f5e2-4e67-b904-9780a36a5a25" labelStyle="Style_119ea9c2-51df-405d-843f-4c0c39c9c65d">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_052afe99-642c-412d-920e-60dedbf6d6a6" bpmnElement="Id_abd1c6f6-24cd-4991-b885-402342b06ee0" isHorizontal="true">
+        <di:extension />
+        <dc:Bounds x="190" y="1045" width="3586" height="360" />
+        <BPMNLabel id="DiagramElement_d518995e-ce17-474c-b353-c6144a17f10c" labelStyle="Style_e1570725-3a89-4e53-b4e1-1b2c0e483fea">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="0" height="0" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="Flow_0y3qdyk_di" bpmnElement="Flow_0y3qdyk">
+        <di:waypoint x="1888" y="1452" />
+        <di:waypoint x="1920" y="1452" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1cbrj6r_di" bpmnElement="Flow_1cbrj6r">
+        <di:waypoint x="2020" y="1452" />
+        <di:waypoint x="2060" y="1452" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0wsmlzv_di" bpmnElement="Flow_0wsmlzv">
+        <di:waypoint x="2880" y="1165" />
+        <di:waypoint x="2940" y="1165" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0muet5r_di" bpmnElement="Flow_0muet5r">
+        <di:waypoint x="2565" y="1185" />
+        <di:waypoint x="2588" y="1185" />
+        <di:waypoint x="2588" y="1165" />
+        <di:waypoint x="2780" y="1165" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_169bopo_di" bpmnElement="Flow_169bopo">
+        <di:waypoint x="3190" y="1165" />
+        <di:waypoint x="3252" y="1165" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_11i5opk_di" bpmnElement="Flow_11i5opk">
+        <di:waypoint x="3040" y="1165" />
+        <di:waypoint x="3090" y="1165" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0p14qem_di" bpmnElement="Flow_0p14qem">
+        <di:waypoint x="1320" y="1880" />
+        <di:waypoint x="1382" y="1880" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_16md4sj_di" bpmnElement="Flow_16md4sj">
+        <di:waypoint x="1320" y="1770" />
+        <di:waypoint x="1440" y="1770" />
+        <di:waypoint x="1440" y="1555" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_11l6bo2_di" bpmnElement="Flow_11l6bo2">
+        <di:waypoint x="1466" y="1539" />
+        <di:waypoint x="1485" y="1539" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0tei9md_di" bpmnElement="Flow_0tei9md">
+        <di:waypoint x="1408" y="1539" />
+        <di:waypoint x="1430" y="1539" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1o5diqi_di" bpmnElement="Flow_1o5diqi">
+        <di:waypoint x="1140" y="1795" />
+        <di:waypoint x="1140" y="1880" />
+        <di:waypoint x="1220" y="1880" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0bz7yz7_di" bpmnElement="Flow_0bz7yz7">
+        <di:waypoint x="1165" y="1770" />
+        <di:waypoint x="1220" y="1770" />
+        <BPMNLabel>
+          <dc:Bounds x="1165" y="1720" width="49" height="40" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0r3q1ib_di" bpmnElement="Flow_0r3q1ib">
+        <di:waypoint x="1062" y="1770" />
+        <di:waypoint x="1115" y="1770" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0hxk1lz_di" bpmnElement="Flow_0hxk1lz">
+        <di:waypoint x="1012" y="1636" />
+        <di:waypoint x="1012" y="1730" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0ahrygn_di" bpmnElement="Flow_0ahrygn">
+        <di:waypoint x="600" y="1477" />
+        <di:waypoint x="635" y="1477" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0z65oja_di" bpmnElement="Flow_0z65oja">
+        <di:waypoint x="1750" y="1623" />
+        <di:waypoint x="1750" y="1647" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0y786ep_di" bpmnElement="Flow_0y786ep">
+        <di:waypoint x="1750" y="1564" />
+        <di:waypoint x="1750" y="1587" />
+        <BPMNLabel>
+          <dc:Bounds x="1752" y="1563" width="63" height="14" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_074voka_di" bpmnElement="Flow_074voka">
+        <di:waypoint x="3670" y="1285" />
+        <di:waypoint x="3722" y="1285" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0h1lc4g_di" bpmnElement="Flow_0h1lc4g">
+        <di:waypoint x="3525" y="1285" />
+        <di:waypoint x="3570" y="1285" />
+        <BPMNLabel>
+          <dc:Bounds x="3526" y="1267" width="28" height="14" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0y371cg_di" bpmnElement="Flow_0y371cg">
+        <di:waypoint x="3500" y="1260" />
+        <di:waypoint x="3500" y="1230" />
+        <di:waypoint x="2830" y="1230" />
+        <di:waypoint x="2830" y="1205" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0de4wme_di" bpmnElement="Flow_0de4wme">
+        <di:waypoint x="3430" y="1285" />
+        <di:waypoint x="3475" y="1285" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1btunpq_di" bpmnElement="Flow_1btunpq">
+        <di:waypoint x="3285" y="1285" />
+        <di:waypoint x="3330" y="1285" />
+        <BPMNLabel>
+          <dc:Bounds x="3259" y="1297" width="83" height="93" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0deptt7_di" bpmnElement="Flow_0deptt7">
+        <di:waypoint x="3260" y="1260" />
+        <di:waypoint x="3260" y="1230" />
+        <di:waypoint x="2830" y="1230" />
+        <di:waypoint x="2830" y="1205" />
+        <BPMNLabel>
+          <dc:Bounds x="2626" y="1072" width="87" height="93" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1tro5bm_di" bpmnElement="Flow_1tro5bm">
+        <di:waypoint x="3190" y="1285" />
+        <di:waypoint x="3235" y="1285" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_10k3kjv_di" bpmnElement="Flow_10k3kjv">
+        <di:waypoint x="3045" y="1285" />
+        <di:waypoint x="3090" y="1285" />
+        <BPMNLabel>
+          <dc:Bounds x="3030" y="1290" width="60" height="40" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_11yo5eh_di" bpmnElement="Flow_11yo5eh">
+        <di:waypoint x="3020" y="1260" />
+        <di:waypoint x="3020" y="1230" />
+        <di:waypoint x="2830" y="1230" />
+        <di:waypoint x="2830" y="1205" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1t4x2vw_di" bpmnElement="Flow_1t4x2vw">
+        <di:waypoint x="2950" y="1285" />
+        <di:waypoint x="2995" y="1285" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0lxrnwq_di" bpmnElement="Flow_0lxrnwq">
+        <di:waypoint x="2805" y="1285" />
+        <di:waypoint x="2850" y="1285" />
+        <BPMNLabel>
+          <dc:Bounds x="2799" y="1296" width="41" height="27" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1b11v4h_di" bpmnElement="Flow_1b11v4h">
+        <di:waypoint x="2780" y="1260" />
+        <di:waypoint x="2780" y="1233" />
+        <di:waypoint x="2830" y="1233" />
+        <di:waypoint x="2830" y="1205" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_03n8b2z_di" bpmnElement="Flow_03n8b2z">
+        <di:waypoint x="2680" y="1285" />
+        <di:waypoint x="2755" y="1285" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_03kkq58_di" bpmnElement="Flow_03kkq58">
+        <di:waypoint x="2540" y="1210" />
+        <di:waypoint x="2540" y="1285" />
+        <di:waypoint x="2580" y="1285" />
+        <BPMNLabel>
+          <dc:Bounds x="2447" y="1237" width="88" height="53" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1h413gn_di" bpmnElement="Flow_1h413gn">
+        <di:waypoint x="2480" y="1185" />
+        <di:waypoint x="2515" y="1185" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1154f1m_di" bpmnElement="Flow_1154f1m">
+        <di:waypoint x="2350" y="1185" />
+        <di:waypoint x="2380" y="1185" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_18on0pu_di" bpmnElement="Flow_18on0pu">
+        <di:waypoint x="1775" y="1539" />
+        <di:waypoint x="1812" y="1539" />
+        <BPMNLabel>
+          <dc:Bounds x="1755" y="1503" width="56" height="14" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0mnma8u_di" bpmnElement="Flow_0mnma8u">
+        <di:waypoint x="1700" y="1539" />
+        <di:waypoint x="1725" y="1539" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_e66bf187-56d8-4147-b9c9-621c13a3e64d" bpmnElement="Id_a676961a-b4c9-4360-920b-b164fa30823b">
+        <di:extension />
+        <di:waypoint x="265" y="1472" />
+        <di:waypoint x="295" y="1472" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_7ac80f78-40d6-4073-b8c3-2bf490e7839a" bpmnElement="Id_b19f9416-9e2c-4294-bddc-7ecd11680090">
+        <di:extension />
+        <di:waypoint x="385" y="1472" />
+        <di:waypoint x="425" y="1472" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1ak0y4l_di" bpmnElement="Flow_1ak0y4l">
+        <di:waypoint x="725" y="1477" />
+        <di:waypoint x="745" y="1477" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_9aedcca2-d607-4c1a-8c80-cabc96223eb3" bpmnElement="Id_b0c80eeb-0ce0-4eb5-b1b2-d7481a1b5368">
+        <di:extension />
+        <di:waypoint x="835" y="1476" />
+        <di:waypoint x="866" y="1476" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_36e42f97-250d-4cf2-bc5c-e4c2acd90f4d" bpmnElement="Id_8c5163d3-1353-429d-b42d-93fcd360dea0">
+        <di:extension />
+        <di:waypoint x="876" y="1488" />
+        <di:waypoint x="850" y="1520" />
+        <di:waypoint x="770" y="1520" />
+        <di:waypoint x="770" y="1565" />
+        <BPMNLabel>
+          <dc:Bounds x="784" y="1522" width="76" height="53" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_07bwu9i_di" bpmnElement="Flow_07bwu9i">
+        <di:waypoint x="885" y="1497" />
+        <di:waypoint x="885" y="1596" />
+        <di:waypoint x="962" y="1596" />
+        <BPMNLabel>
+          <dc:Bounds x="875" y="1416" width="90" height="53" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1q68bny_di" bpmnElement="Flow_1q68bny">
+        <di:waypoint x="905" y="1477" />
+        <di:waypoint x="962" y="1477" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1urgcsk_di" bpmnElement="Flow_1urgcsk">
+        <di:waypoint x="1062" y="1456" />
+        <di:waypoint x="1124" y="1456" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0mc5sax_di" bpmnElement="Flow_0mc5sax">
+        <di:waypoint x="1062" y="1596" />
+        <di:waypoint x="1142" y="1596" />
+        <di:waypoint x="1142" y="1474" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1gkvvyn_di" bpmnElement="Flow_1gkvvyn">
+        <di:waypoint x="1575" y="1539" />
+        <di:waypoint x="1600" y="1539" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1w3lrv4_di" bpmnElement="Flow_1w3lrv4">
+        <di:waypoint x="2110" y="1412" />
+        <di:waypoint x="2110" y="1315" />
+        <di:waypoint x="1950" y="1315" />
+        <di:waypoint x="1950" y="1225" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0zdoce5_di" bpmnElement="Flow_0zdoce5">
+        <di:waypoint x="2215" y="1185" />
+        <di:waypoint x="2250" y="1185" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1lipman_di" bpmnElement="Flow_1lipman">
+        <di:waypoint x="2000" y="1185" />
+        <di:waypoint x="2042" y="1185" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0i4nubw_di" bpmnElement="Flow_0i4nubw">
+        <di:waypoint x="2078" y="1185" />
+        <di:waypoint x="2125" y="1185" />
+      </BPMNEdge>
+      <BPMNShape id="Activity_1kibah6_di" bpmnElement="Activity_1kibah6">
+        <dc:Bounds x="2580" y="1245" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_0cb6y0f_di" bpmnElement="Event_1fzxf10">
+        <dc:Bounds x="1852" y="1434" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1msaq0c_di" bpmnElement="Activity_1msaq0c">
+        <dc:Bounds x="1920" y="1412" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0q9coay_di" bpmnElement="Activity_0q9coay">
+        <dc:Bounds x="2060" y="1412" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_01qt848_di" bpmnElement="Activity_01qt848">
+        <dc:Bounds x="2780" y="1125" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_06qsh5g_di" bpmnElement="Event_13xvftg">
+        <dc:Bounds x="3252" y="1147" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1dk5qib_di" bpmnElement="Activity_1dk5qib">
+        <dc:Bounds x="3090" y="1125" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0nwgev5_di" bpmnElement="Activity_0nwgev5">
+        <dc:Bounds x="2940" y="1125" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_b1678d77-146c-4ae8-a9b8-ceb2f76ce878" bpmnElement="Id_8eb26499-c75e-4f77-80ce-bedb5eca63cb" isMarkerVisible="true">
+        <di:extension />
+        <dc:Bounds x="865" y="1457" width="40" height="40" />
+      </BPMNShape>
+      <BPMNShape id="Activity_159mrjo_di" bpmnElement="Activity_159mrjo">
+        <dc:Bounds x="962" y="1556" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0anvsue_di" bpmnElement="Activity_0anvsue">
+        <dc:Bounds x="962" y="1437" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_1n2xefk_di" bpmnElement="Event_0jkerze">
+        <dc:Bounds x="1124" y="1438" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_00lyxbu_di" bpmnElement="Event_1gtqykd">
+        <dc:Bounds x="1812" y="1521" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_b8061989-d225-457b-a527-a7610a40b100" bpmnElement="Id_d6717c53-ffea-4073-ab2c-5838c8abdb64">
+        <di:extension />
+        <dc:Bounds x="1485" y="1509" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_ae2d2578-4365-4e90-95e1-4cd14fde5f22" labelStyle="Style_62f53309-50ad-490f-955e-3b0e263bead1">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="Gateway_1ua7qfz_di" bpmnElement="Gateway_1ua7qfz" isMarkerVisible="true">
+        <dc:Bounds x="1725" y="1514" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1vdrmuq_di" bpmnElement="Activity_09c432o">
+        <dc:Bounds x="2380" y="1145" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_1rrn6p0_di" bpmnElement="Activity_1rrn6p0">
+        <dc:Bounds x="2250" y="1145" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_09f3ft7_di" bpmnElement="Gateway_09f3ft7" isMarkerVisible="true">
+        <dc:Bounds x="2515" y="1160" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_1s7d0df_di" bpmnElement="Gateway_1s7d0df" isMarkerVisible="true">
+        <dc:Bounds x="2755" y="1260" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0cjiao1_di" bpmnElement="Activity_0cjiao1">
+        <dc:Bounds x="2850" y="1245" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_1tb9xye_di" bpmnElement="Gateway_1tb9xye" isMarkerVisible="true">
+        <dc:Bounds x="2995" y="1260" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_098ro22_di" bpmnElement="Activity_098ro22">
+        <dc:Bounds x="3090" y="1245" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_0asz3ff_di" bpmnElement="Gateway_0asz3ff" isMarkerVisible="true">
+        <dc:Bounds x="3235" y="1260" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_03h667l_di" bpmnElement="Activity_03h667l">
+        <dc:Bounds x="3330" y="1245" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_12dlb4y_di" bpmnElement="Gateway_12dlb4y" isMarkerVisible="true">
+        <dc:Bounds x="3475" y="1260" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0ub7vnq_di" bpmnElement="Activity_0ub7vnq">
+        <dc:Bounds x="3570" y="1245" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_1hjxey3_di" bpmnElement="Event_1c14f54">
+        <dc:Bounds x="3722" y="1267" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_02ag22p_di" bpmnElement="Event_0uamt31">
+        <dc:Bounds x="1732" y="1587" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0asi6sh_di" bpmnElement="Event_10m04a7">
+        <dc:Bounds x="1732" y="1647" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_015x6ui_di" bpmnElement="Activity_015x6ui">
+        <dc:Bounds x="1900" y="1145" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_616839ed-7d21-45f3-a4b9-f04e5f9206d9" bpmnElement="Id_4dd66388-af08-42b8-bdfe-5b7178f61fa4">
+        <di:extension />
+        <dc:Bounds x="2125" y="1155" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_f69d215f-f183-41b8-b383-05c3153282d2" labelStyle="Style_4dd439e8-9df7-43cd-9131-a625808f4fba">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="Event_097m6e2_di" bpmnElement="Event_1f2qf6k">
+        <dc:Bounds x="2042" y="1167" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Activity_04hp3b6_di" bpmnElement="Activity_1qmlcz3">
+        <dc:Bounds x="1600" y="1499" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_372c37d4-3346-4e2f-87b0-5e682cc954ff" bpmnElement="Id_78282851-21b7-4723-8b16-01e6e9066d72">
+        <di:extension />
+        <dc:Bounds x="745" y="1447" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_4f2880c2-add8-407d-8f7f-a78b3674664a" labelStyle="Style_7251d592-cef6-4266-a02f-34d05c958961">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_ee20d5c0-78e4-41d4-8592-61e42ccc0315" bpmnElement="Id_e749b76e-c0b7-4041-9185-02573d34a02f">
+        <di:extension />
+        <dc:Bounds x="635" y="1447" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_74851d89-452c-4d7c-b556-ff2af40dfad0" labelStyle="Style_d6704817-7487-49d4-b6c1-6e17484ad8a8">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_b9de9f2e-a14f-4bda-8adb-4206a973e48e" bpmnElement="Id_07bd6023-8af8-4524-a881-cb38cac89223">
+        <di:extension />
+        <dc:Bounds x="235" y="1458" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_b5d996fb-3eba-4a99-8c17-6cd04726eb26" bpmnElement="Id_e0b21221-1c66-411f-93f0-4f22328b6328">
+        <di:extension />
+        <dc:Bounds x="295" y="1443" width="90" height="60" />
+        <BPMNLabel id="DiagramElement_c8095fa8-843e-46d8-9496-0c0fef826f39" labelStyle="Style_5174475f-91f6-4290-8d46-832c9d327479">
+          <di:extension />
+          <dc:Bounds x="0" y="0" width="90" height="60" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNShape id="DiagramElement_25372662-2515-4cea-b78e-1a59b4c7eb3f" bpmnElement="Id_724de1d5-a837-4a34-9fdf-ac02c984557b">
+        <di:extension />
+        <dc:Bounds x="425" y="1458" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="Activity_15lwuoq_di" bpmnElement="Activity_15lwuoq">
+        <dc:Bounds x="500" y="1437" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_14p0yf2_di" bpmnElement="Activity_14p0yf2">
+        <dc:Bounds x="962" y="1730" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Gateway_127lhhq_di" bpmnElement="Gateway_127lhhq" isMarkerVisible="true">
+        <dc:Bounds x="1115" y="1745" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="Activity_13o54ok_di" bpmnElement="Activity_13o54ok">
+        <dc:Bounds x="1220" y="1730" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Activity_0fy100r_di" bpmnElement="Activity_0fy100r">
+        <dc:Bounds x="1220" y="1840" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="Event_0gfvuxx_di" bpmnElement="Event_1yt5vt0">
+        <dc:Bounds x="1372" y="1521" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0tpxhmo_di" bpmnElement="Event_1khl65c">
+        <dc:Bounds x="1430" y="1521" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0k7n27l_di" bpmnElement="Event_0k7n27l">
+        <dc:Bounds x="1382" y="1862" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Event_0evqfp1_di" bpmnElement="Id_2b0beb68-a8af-45c1-b05d-8ded28ccfba9">
+        <dc:Bounds x="755" y="1565" width="30" height="30" />
+      </BPMNShape>
+      <BPMNShape id="TextAnnotation_0d662ni_di" bpmnElement="TextAnnotation_0d662ni">
+        <dc:Bounds x="1810" y="1638" width="170" height="55" />
+      </BPMNShape>
+      <BPMNShape id="TextAnnotation_1odip5t_di" bpmnElement="TextAnnotation_1odip5t">
+        <dc:Bounds x="3330" y="1050" width="209.9950520350723" height="112.67605633802818" />
+      </BPMNShape>
+      <BPMNShape id="TextAnnotation_12nlh47_di" bpmnElement="TextAnnotation_12nlh47">
+        <dc:Bounds x="1160" y="1485" width="200.382987687639" height="155.67086730911785" />
+      </BPMNShape>
+      <BPMNEdge id="Association_1o89370_di" bpmnElement="Association_1o89370">
+        <di:waypoint x="2830" y="1125" />
+        <di:waypoint x="2830" y="1104" />
+        <di:waypoint x="3330" y="1104" />
+      </BPMNEdge>
+      <BPMNEdge id="Association_0uf0o0i_di" bpmnElement="Association_0uf0o0i">
+        <di:waypoint x="1151" y="1471" />
+        <di:waypoint x="1160" y="1485" />
+        <di:waypoint x="1160" y="1555" />
+        <di:waypoint x="1160" y="1485" />
+      </BPMNEdge>
+      <BPMNEdge id="Association_1mzg5xt_di" bpmnElement="Association_1mzg5xt">
+        <di:waypoint x="1768" y="1665" />
+        <di:waypoint x="1810" y="1665" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_efa01b46-3539-4b49-bca6-c2e76ea6bc8e" bpmnElement="Id_6289c3f7-e838-4da7-af71-11adcdf8b0ed">
+        <di:extension />
+        <di:waypoint x="1503" y="500" />
+        <di:waypoint x="1503" y="803" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_86fa2d67-2907-4037-9a48-589d7325a5d1" bpmnElement="Id_265c7653-2e26-4f45-8c91-48b8dae15b53">
+        <di:extension />
+        <di:waypoint x="440" y="1458" />
+        <di:waypoint x="440" y="1236" />
+        <di:waypoint x="960" y="1236" />
+        <di:waypoint x="960" y="869" />
+      </BPMNEdge>
+      <BPMNEdge id="DiagramElement_e5016baa-72f0-4af1-854e-6c363da9dbec" bpmnElement="Id_c9fe6c49-a76f-4931-a0d8-3d11786e0b3e">
+        <di:extension />
+        <di:waypoint x="660" y="992" />
+        <di:waypoint x="660" y="1150" />
+        <di:waypoint x="250" y="1150" />
+        <di:waypoint x="250" y="1458" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0eecac9_di" bpmnElement="Flow_0eecac9">
+        <di:waypoint x="1062" y="1486" />
+        <di:waypoint x="1100" y="1486" />
+        <di:waypoint x="1100" y="1984" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_048pqsd_di" bpmnElement="Flow_048pqsd">
+        <di:waypoint x="1160" y="1456" />
+        <di:waypoint x="1250" y="1456" />
+        <di:waypoint x="1250" y="833" />
+        <di:waypoint x="1315" y="833" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0o3t3js_di" bpmnElement="Flow_0o3t3js">
+        <di:waypoint x="1142" y="1438" />
+        <di:waypoint x="1142" y="470" />
+        <di:waypoint x="1383" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1a9s49y_di" bpmnElement="Flow_1a9s49y">
+        <di:waypoint x="1820" y="1524" />
+        <di:waypoint x="1820" y="1350" />
+        <di:waypoint x="1398" y="1350" />
+        <di:waypoint x="1398" y="485" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_180la7d_di" bpmnElement="Flow_180la7d">
+        <di:waypoint x="660" y="869" />
+        <di:waypoint x="660" y="890" />
+        <di:waypoint x="590" y="890" />
+        <di:waypoint x="590" y="1150" />
+        <di:waypoint x="250" y="1150" />
+        <di:waypoint x="250" y="1458" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1k41okb_di" bpmnElement="Flow_1k41okb">
+        <di:waypoint x="2990" y="1125" />
+        <di:waypoint x="2990" y="1070" />
+        <di:waypoint x="2820" y="1070" />
+        <di:waypoint x="2820" y="470" />
+        <di:waypoint x="1988" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1jfde8s_di" bpmnElement="Flow_1jfde8s">
+        <di:waypoint x="3140" y="1125" />
+        <di:waypoint x="3140" y="940" />
+        <di:waypoint x="2900" y="940" />
+        <di:waypoint x="2900" y="847" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0a22cjt_di" bpmnElement="Flow_0a22cjt">
+        <di:waypoint x="3620" y="1245" />
+        <di:waypoint x="3620" y="1120" />
+        <di:waypoint x="3720" y="1120" />
+        <di:waypoint x="3720" y="470" />
+        <di:waypoint x="1988" y="470" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1t536en_di" bpmnElement="Flow_1t536en">
+        <di:waypoint x="1840" y="1524" />
+        <di:waypoint x="1840" y="1130" />
+        <di:waypoint x="1500" y="1130" />
+        <di:waypoint x="1500" y="863" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1lat8fu_di" bpmnElement="Flow_1lat8fu">
+        <di:waypoint x="1766" y="1597" />
+        <di:waypoint x="1800" y="1580" />
+        <di:waypoint x="1880" y="1580" />
+        <di:waypoint x="1880" y="1500" />
+        <di:waypoint x="1840" y="1500" />
+        <di:waypoint x="1840" y="1130" />
+        <di:waypoint x="1500" y="1130" />
+        <di:waypoint x="1500" y="863" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0y2bz01_di" bpmnElement="Flow_0y2bz01">
+        <di:waypoint x="1970" y="873" />
+        <di:waypoint x="1970" y="890" />
+        <di:waypoint x="1870" y="890" />
+        <di:waypoint x="1870" y="1434" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1iei6mf_di" bpmnElement="Flow_1iei6mf">
+        <di:waypoint x="1970" y="990" />
+        <di:waypoint x="1970" y="1010" />
+        <di:waypoint x="1870" y="1010" />
+        <di:waypoint x="1870" y="1434" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1nknoc9_di" bpmnElement="Flow_1nknoc9">
+        <di:waypoint x="2300" y="851" />
+        <di:waypoint x="2300" y="1080" />
+        <di:waypoint x="2060" y="1080" />
+        <di:waypoint x="2060" y="1167" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1ckhsmz_di" bpmnElement="Flow_1ckhsmz">
+        <di:waypoint x="1070" y="847" />
+        <di:waypoint x="1070" y="1300" />
+        <di:waypoint x="550" y="1300" />
+        <di:waypoint x="550" y="1437" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_07ez6s4_di" bpmnElement="Flow_07ez6s4">
+        <di:waypoint x="1270" y="1920" />
+        <di:waypoint x="1270" y="1930" />
+        <di:waypoint x="1190" y="1930" />
+        <di:waypoint x="1190" y="1969" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_0107qpn_di" bpmnElement="Flow_0107qpn">
+        <di:waypoint x="1290" y="1983" />
+        <di:waypoint x="1290" y="1960" />
+        <di:waypoint x="1460" y="1960" />
+        <di:waypoint x="1460" y="1552" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_15rp9gq_di" bpmnElement="Flow_15rp9gq">
+        <di:waypoint x="1305" y="1998" />
+        <di:waypoint x="1330" y="1998" />
+        <di:waypoint x="1330" y="1980" />
+        <di:waypoint x="2240" y="1980" />
+        <di:waypoint x="2240" y="1350" />
+        <di:waypoint x="1398" y="1350" />
+        <di:waypoint x="1398" y="485" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_1b8nbwq_di" bpmnElement="Flow_1b8nbwq">
+        <di:waypoint x="1305" y="1998" />
+        <di:waypoint x="1330" y="1998" />
+        <di:waypoint x="1330" y="2020" />
+        <di:waypoint x="3820" y="2020" />
+        <di:waypoint x="3820" y="60" />
+        <di:waypoint x="1740" y="60" />
+        <di:waypoint x="1740" y="122" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_011xzk3_di" bpmnElement="Flow_011xzk3">
+        <di:waypoint x="1320" y="1780" />
+        <di:waypoint x="1550" y="1780" />
+        <di:waypoint x="1550" y="2020" />
+        <di:waypoint x="3820" y="2020" />
+        <di:waypoint x="3820" y="60" />
+        <di:waypoint x="1740" y="60" />
+        <di:waypoint x="1740" y="122" />
+      </BPMNEdge>
+      <BPMNEdge id="Flow_18pwv45_di" bpmnElement="Flow_18pwv45">
+        <di:waypoint x="1320" y="1790" />
+        <di:waypoint x="1530" y="1790" />
+        <di:waypoint x="1530" y="1980" />
+        <di:waypoint x="2240" y="1980" />
+        <di:waypoint x="2240" y="1350" />
+        <di:waypoint x="1398" y="1350" />
+        <di:waypoint x="1398" y="485" />
+      </BPMNEdge>
+    </BPMNPlane>
+    <BPMNLabelStyle id="Style_85c03a25-786b-4a4a-b1b8-f0c51c8c3d9f">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_da948fcc-0a8a-4e39-94e9-3af2ee3c79a8">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_6cb9de4f-945b-4da2-ae32-8abb308e9ae3">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_1455f272-0018-46b5-b914-322468e6b44b">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_95b45c74-c35d-46dc-b889-5823fc81397f">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_d6704817-7487-49d4-b6c1-6e17484ad8a8">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_871f1e5f-5131-4e9d-bf45-70835ce46cab">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_8b1509cc-a09d-411c-91ee-12d61cbf65dd">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_713c4e1b-cd7d-4159-8bf8-d84305d12b88">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_2739cae7-13e9-46c1-8489-ff6fea2cb7d6">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_b3fa382a-4539-4ae4-a6f4-544f5b51c8d7">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_355eb245-1cd9-4688-b883-2898e8b3756d">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_0fe675f4-6e3a-4070-ab1f-b5250d27765e">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_5a188deb-105c-4147-bd24-6d05dcbacf9e">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_e3e83ae1-34c2-41a4-a952-4ed460b7652b">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_d0c924a8-553b-4080-b4a2-1a214121e858">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_e1570725-3a89-4e53-b4e1-1b2c0e483fea">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_119ea9c2-51df-405d-843f-4c0c39c9c65d">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_5174475f-91f6-4290-8d46-832c9d327479">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_7251d592-cef6-4266-a02f-34d05c958961">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_b19666d6-81df-4a62-bc01-cfd7e4f430b9">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_81094eba-6f12-489a-917c-c2a750f0ba56">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_62f53309-50ad-490f-955e-3b0e263bead1">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_fefc66a7-e423-4579-8f26-cb5515aa6cf8">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_4dd439e8-9df7-43cd-9131-a625808f4fba">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_950d15ca-2097-4895-a9fb-f8d04aa5cdfc">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_2d230c6b-a1d1-4cf0-9100-2c5764700d34">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_c0409f83-d1e0-41df-98a7-3b9b725cfc08">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_9a287678-26b1-4c08-baee-a7c55f30f304">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_35b74cca-2843-4d51-9834-8fbdb5ac5655">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_75b9dc98-885a-4d80-9022-701dd6037d32">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_18dafe0f-ba10-4485-b0f1-51153d3568d8">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_b50a6f62-debe-4b49-a362-19aacf1d87f0">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_e23c7dc2-bcf3-4849-9177-7dcdcc346e63">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_50e770d0-e230-4d73-bc19-e20654fae99f">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_544883be-abed-471e-a79e-ec26d39a9bad">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_2d9b5ebc-d2b8-44d5-9d0d-923a73385a35">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_a8cd844a-795d-4266-b7f3-fc6868103426">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_928bc5da-c6ac-4236-87ca-f03167a92809">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_00add819-d43f-4ccd-8b64-a179b7137a70">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_ff93d7d7-ac76-418e-9b75-9c00aef12868">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_f7859ca6-57ed-4035-8e6e-672398b218fa">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_c429424f-62df-45df-a80f-dbf04ae377b8">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_9cb457a0-a386-4fb6-891c-425010f3bfeb">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_7f07ca21-bbab-4162-a7a5-bee7282346f9">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+  </BPMNDiagram>
+</definitions>
